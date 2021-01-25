@@ -1,0 +1,88 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: booking-app-backend
+frameworkVersion: '2'
+useDotenv: true
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: eu-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action: 
+        - ses:*
+        - dynamodb:*
+      Resource: '*'
+  apiGateway:
+    shouldStartNameWithService: true
+  
+  environment:
+    USERS_TABLE: ${self:service}-${self:provider.stage}-users-table
+    USERS_EMAIL_INDEX: ${self:provider.environment.USERS_TABLE}-email-index
+
+functions:
+  authorize: 
+    handler: src/lambdas/auth/authorizer.handler
+
+  register:
+    handler: src/lambdas/auth/register.handler
+    events:
+      - http:
+          path: /api/register
+          method: POST
+          cors: true
+  
+  login:
+    handler: src/lambdas/auth/login.handler
+    events:
+      - http:
+          path: /api/login
+          method: POST
+          cors: true
+
+  validate:
+    handler: src/lambdas/auth/validate.handler
+    events:
+      - http:
+          path: /api/validate
+          method: POST
+          cors: true
+  
+  users:
+    handler: src/lambdas/users.handler
+    events:
+      - http:
+          path: /api/users
+          method: GET
+          cors: true
+  hello:
+    handler: src/lambdas/handler.hello
+    events:
+      - http:
+          path: /hello
+          method: GET
+          cors: true
+          authorizer: authorize
+  
+resources:
+  - ${file(./resources/dynamodb.yml)}
+  - ${file(./resources/authorizer_cors.yml)}
+                
