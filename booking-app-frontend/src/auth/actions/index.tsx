@@ -1,62 +1,35 @@
-export enum AuthActionTypes {
-  LOGIN_REQUEST = 'LOGIN_REQUEST',
-  LOGIN_SUCCESS = 'LOGIN_SUCCESS',
-  LOGIN_FAILURE = 'LOGIN_FAILURE',
-  LOGOUT_REQUEST = 'LOGOUT_REQUEST',
-  LOGOUT_SUCCESS = 'LOGOUT_SUCCESS',
-  LOGOUT_FAILURE = 'LOGOUT_FAILURE',
-  REGISTER_REQUEST = 'REGISTER_REQUEST',
-  REGISTER_SUCCESS = 'REGISTER_SUCCESS',
-  REGISTER_FAILURE = 'REGISTER_FAILURE'
-}
+import { AuthActionTypes, IAuthCredentials, IAuthAction } from './types';
+import { IProfileState } from '../../context/types';
 
-export interface IAuthCredentials {
-    email: string;
-    userName?: string;
-    password: string;
-}
-
-export interface IUserData {
-  email: string;
-  token: string;
-}
-
-export interface IAuthAction {
-    type: AuthActionTypes;
-    credentials?: IAuthCredentials;
-    userData?: IUserData;
-    message?: string;
-}
-
-export const loginRequest = (credentials: IAuthCredentials): IAuthAction => ({
+export const loginRequest = (payload: IAuthCredentials): IAuthAction => ({
   type: AuthActionTypes.LOGIN_REQUEST,
-  credentials,
+  payload,
 });
 
-export const loginSuccess = (userData: IUserData): IAuthAction => ({
+export const loginSuccess = (payload: IProfileState): IAuthAction => ({
   type: AuthActionTypes.LOGIN_SUCCESS,
   message: 'Welcome!',
-  userData,
+  payload,
 });
 
-export const loginFailure = (): IAuthAction => ({
+export const loginFailure = (message: string): IAuthAction => ({
   type: AuthActionTypes.LOGIN_FAILURE,
-  message: 'Login failed!',
+  message,
 });
 
-export const registerRequest = (credentials: IAuthCredentials): IAuthAction => ({
+export const registerRequest = (payload: IAuthCredentials): IAuthAction => ({
   type: AuthActionTypes.REGISTER_REQUEST,
-  credentials,
+  payload,
 });
 
-export const registerSuccess = (): IAuthAction => ({
+export const registerSuccess = (message: string): IAuthAction => ({
   type: AuthActionTypes.REGISTER_SUCCESS,
-  message: 'Account created successfully!',
+  message,
 });
 
-export const registerFailure = (): IAuthAction => ({
+export const registerFailure = (message: string): IAuthAction => ({
   type: AuthActionTypes.REGISTER_FAILURE,
-  message: 'Could not create account!',
+  message,
 });
 
 export const logoutSuccess = (): IAuthAction => ({

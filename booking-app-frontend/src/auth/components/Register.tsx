@@ -1,8 +1,8 @@
-import { FormEvent, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useStore } from '../../context/store';
 import AuthForm, { AuthFormTypes } from './AuthForm';
-import { IAuthCredentials } from '../actions';
+import { IAuthCredentials } from '../actions/types';
 import authService from '../../service/auth.service';
 
 const Register: FunctionComponent = () => {

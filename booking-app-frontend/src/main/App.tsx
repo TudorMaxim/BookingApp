@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import { useStore } from '../context/store';
 import { loginSuccess } from '../auth/actions';
+import { loadProfile } from '../profile/actions';
 import routes, { IRoute } from '../config/routes';
 import authService from '../service/auth.service';
 import Header from '../common/Header';
@@ -27,9 +28,10 @@ const AppRoute: FunctionComponent<IRoute> = ({ path, component, isPrivate }) => 
 const App: FunctionComponent = () => {
   const { state, dispatch } = useStore();
   useEffect(() => {
-    const userDataJson = localStorage.getItem('userData');
-    if (userDataJson && !state.auth.isAuthenticated) {
-      dispatch(loginSuccess(JSON.parse(userDataJson)));
+    const profile = authService.getProfile();
+    if (profile && !state.auth.isAuthenticated) {
+      dispatch(loginSuccess(profile));
+      dispatch(loadProfile(profile));
     }
   });
   return (

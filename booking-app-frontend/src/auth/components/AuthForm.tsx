@@ -1,7 +1,7 @@
 import { FormEvent, FunctionComponent, useState } from 'react';
-import { Form, Button, InputGroup } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import BookingAppLogo from '../../assets/BookingAppLogo.png';
-import { IAuthCredentials } from '../actions';
+import { IAuthCredentials } from '../actions/types';
 import FormInput from './FormInput';
 import './AuthForm.sass';
 

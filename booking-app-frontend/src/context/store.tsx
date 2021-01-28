@@ -1,13 +1,13 @@
-import React, {
-  createContext, useContext, useReducer, FunctionComponent,
+import {
+  createContext, useContext, useReducer, FunctionComponent, Dispatch,
 } from 'react';
 import initialState from './initialState';
 import rootReducer, { IAction } from './rootReducer';
-import { IState } from './stateTypes';
+import { IState } from './types';
 
 export interface IStore {
     state: IState;
-    dispatch: React.Dispatch<IAction>;
+    dispatch: Dispatch<IAction>;
 }
 
 const AppContext = createContext<IStore>({

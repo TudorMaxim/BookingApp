@@ -1,11 +1,14 @@
-import { IState } from './stateTypes';
+import { IState } from './types';
 
 const initialState: IState = {
   auth: {
-    email: '',
-    token: '',
     isLoading: false,
     isAuthenticated: false,
+  },
+  profile: {
+    name: '',
+    email: '',
+    token: '',
   },
 };
 
