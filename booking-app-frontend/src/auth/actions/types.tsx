@@ -13,7 +13,7 @@ export enum AuthActionTypes {
 }
 
 export interface IAuthCredentials {
-    userName?: string;
+    username?: string;
     email: string;
     password: string;
 }

@@ -1,8 +1,12 @@
-import { FormEvent, FunctionComponent, useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import {
+  Dispatch, FormEvent, FunctionComponent, SetStateAction, useEffect, useState,
+} from 'react';
+import { Form, Button, Spinner } from 'react-bootstrap';
 import BookingAppLogo from '../../assets/BookingAppLogo.png';
 import { IAuthCredentials } from '../actions/types';
-import FormInput from './FormInput';
+import FormInput, { useFormInput } from './FormInput';
+import { useStore } from '../../context/store';
+import { usernameValidator, emailValidator, passwordValidator } from '../validators';
 import './AuthForm.sass';
 
 export enum AuthFormTypes {
@@ -12,18 +16,29 @@ export enum AuthFormTypes {
 }
 
 interface AuthFormProps {
-    type: AuthFormTypes;
-    submitHandler: (credentials: IAuthCredentials) => void;
+  type: AuthFormTypes;
+  submitHandler: (credentials: IAuthCredentials) => void;
 }
 
 const AuthForm: FunctionComponent<AuthFormProps> = ({ type, submitHandler }) => {
+  const { state } = useStore();
   const [validated, setValidated] = useState(false);
-  const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const credentials: IAuthCredentials = { email, password, userName };
+  const [username, validUsername, setUsermame] = useFormInput(usernameValidator);
+  const [email, validEmail, setEmail] = useFormInput(emailValidator);
+  const [password, validPassword, setPassword] = useFormInput(passwordValidator);
+  const credentials: IAuthCredentials = {
+    email: email as string,
+    password: password as string,
+    username: username as string,
+  };
   const isRegister: boolean = type === AuthFormTypes.REGISTER;
   const isRecover: boolean = type === AuthFormTypes.RECOVER;
+
+  useEffect(() => {
+    if (!state.auth.isLoading) {
+      setTimeout(() => setValidated(false), 3500);
+    }
+  }, [state.auth.isLoading]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     const form = e.currentTarget;
@@ -38,39 +53,53 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, submitHandler }) => 
     <div className="auth-form-wrapper">
       <img id="logo-image" src={BookingAppLogo} alt="Booking app logo" />
       <Form noValidate validated={validated} id="auth-form" onSubmit={handleSubmit}>
-        {isRegister
-            && (
-            <FormInput
-              inputFor="username"
-              type="text"
-              label="Your name"
-              placeholder="Enter your name"
-              feedback="Your name is required"
-              changeHandler={setUserName}
-            />
-            )}
+        {isRegister && (
+          <FormInput
+            inputFor="username"
+            type="text"
+            label="Your name"
+            value={username as string}
+            placeholder="Enter your name"
+            feedback="Your name is required"
+            isValid={validUsername as boolean}
+            changeHandler={setUsermame as Dispatch<SetStateAction<string>>}
+          />
+        )}
         <FormInput
           inputFor="email"
           type="email"
           label="Your email"
+          value={email as string}
           placeholder="Enter your email"
           feedback="Your email is required"
-          changeHandler={setEmail}
+          isValid={validEmail as boolean}
+          changeHandler={setEmail as Dispatch<SetStateAction<string>>}
         />
 
         {!isRecover && (
-        <FormInput
-          inputFor="password"
-          type="password"
-          label="Your password"
-          placeholder="Enter your password"
-          feedback="Your password is required"
-          changeHandler={setPassword}
-        />
+          <FormInput
+            inputFor="password"
+            type="password"
+            label="Your password"
+            value={password as string}
+            placeholder="Enter your password"
+            feedback="Password must have at least 8 characters"
+            isValid={validPassword as boolean}
+            changeHandler={setPassword as Dispatch<SetStateAction<string>>}
+          />
         )}
 
-        <Button type="submit" variant="primary" className="submit-button">
-          {type}
+        <Button type="submit" variant="primary" className="submit-button" disabled={state.auth.isLoading}>
+          {!state.auth.isLoading && type}
+          {state.auth.isLoading && (
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+          )}
         </Button>
       </Form>
     </div>
