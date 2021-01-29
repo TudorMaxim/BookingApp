@@ -34,4 +34,5 @@ export const registerFailure = (message: string): IAuthAction => ({
 
 export const logoutSuccess = (): IAuthAction => ({
   type: AuthActionTypes.LOGOUT_SUCCESS,
+  message: 'Good bye!',
 });

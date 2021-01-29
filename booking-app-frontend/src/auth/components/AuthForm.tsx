@@ -7,6 +7,7 @@ import { IAuthCredentials } from '../actions/types';
 import FormInput, { useFormInput } from './FormInput';
 import { useStore } from '../../context/store';
 import { usernameValidator, emailValidator, passwordValidator } from '../validators';
+import Flash from '../../common/Flash';
 import './AuthForm.sass';
 
 export enum AuthFormTypes {
@@ -26,6 +27,15 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, submitHandler }) => 
   const [username, validUsername, setUsermame] = useFormInput(usernameValidator);
   const [email, validEmail, setEmail] = useFormInput(emailValidator);
   const [password, validPassword, setPassword] = useFormInput(passwordValidator);
+
+  useEffect(() => {
+    if (!state.auth.isLoading) {
+      const timeout = setTimeout(() => setValidated(false), 3500);
+      return () => clearTimeout(timeout);
+    }
+    return () => null;
+  }, [state.auth.isLoading]);
+
   const credentials: IAuthCredentials = {
     email: email as string,
     password: password as string,
@@ -33,12 +43,13 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, submitHandler }) => 
   };
   const isRegister: boolean = type === AuthFormTypes.REGISTER;
   const isRecover: boolean = type === AuthFormTypes.RECOVER;
-
-  useEffect(() => {
-    if (!state.auth.isLoading) {
-      setTimeout(() => setValidated(false), 3500);
-    }
-  }, [state.auth.isLoading]);
+  const isLogin: boolean = type === AuthFormTypes.LOGIN;
+  let success = false;
+  if (isLogin) {
+    success = state.auth.isAuthenticated;
+  } else if (isRegister) {
+    success = state.auth.isRegistered;
+  }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     const form = e.currentTarget;
@@ -52,6 +63,9 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, submitHandler }) => 
   return (
     <div className="auth-form-wrapper">
       <img id="logo-image" src={BookingAppLogo} alt="Booking app logo" />
+      {state.auth.message && validated && (
+        <Flash success={success} message={state.auth.message} />
+      )}
       <Form noValidate validated={validated} id="auth-form" onSubmit={handleSubmit}>
         {isRegister && (
           <FormInput

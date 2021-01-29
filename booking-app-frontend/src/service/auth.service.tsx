@@ -45,18 +45,24 @@ const logout = (dispatch: Dispatch<IAuthAction>): void => {
   dispatch(logoutSuccess());
 };
 
-const register = (
+const register = async (
   credentials: IAuthCredentials,
   dispatch: Dispatch<IAuthAction>,
-  callback: () => void,
-): void => {
+): Promise<void> => {
   dispatch(registerRequest(credentials));
-  if (credentials.email.length > 0 && credentials.password.length > 0) {
-    dispatch(registerSuccess('Please check your email'));
-    callback();
-  } else {
-    dispatch(registerFailure('Could not register'));
+  const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/register`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials),
+  });
+  const responseBody = await response.json();
+  if (!response.ok) {
+    dispatch(registerFailure(responseBody.message));
+    return;
   }
+  dispatch(registerSuccess('Nice! Please check your email to activate your account.'));
 };
 
 const isLoggedIn = (): boolean => {

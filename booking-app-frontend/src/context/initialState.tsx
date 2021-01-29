@@ -4,6 +4,7 @@ const initialState: IState = {
   auth: {
     isLoading: false,
     isAuthenticated: false,
+    isRegistered: false,
   },
   profile: {
     name: '',

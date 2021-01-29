@@ -6,9 +6,9 @@ const profileReducer = (state: IProfileState, action: IProfileAction): IProfileS
     case ProfileActionTypes.LOAD_PROFILE:
       return {
         ...state,
-        name: action.payload!.name,
-        email: action.payload!.email,
-        token: action.payload!.token,
+        name: action.payload ? action.payload.name : '',
+        email: action.payload ? action.payload.email : '',
+        token: action.payload ? action.payload.token : '',
       };
     default:
       return state;

@@ -10,7 +10,7 @@ const Profile: FunctionComponent = () => {
       <h3>
         Profile for
         {' '}
-        {state.profile.name}
+        {state.profile.email}
       </h3>
       <Button variant="primary" onClick={() => authService.logout(dispatch)}> LOG OUT </Button>
     </>
