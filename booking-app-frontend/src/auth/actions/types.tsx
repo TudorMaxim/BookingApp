@@ -9,7 +9,10 @@ export enum AuthActionTypes {
     LOGOUT_FAILURE = 'LOGOUT_FAILURE',
     REGISTER_REQUEST = 'REGISTER_REQUEST',
     REGISTER_SUCCESS = 'REGISTER_SUCCESS',
-    REGISTER_FAILURE = 'REGISTER_FAILURE'
+    REGISTER_FAILURE = 'REGISTER_FAILURE',
+    VALIDATE_REQUEST = 'VALIDATE_REQUEST',
+    VALIDATE_SUCCESS = 'VALIDATE_SUCCESS',
+    VALIDATE_FAILURE = 'VALIDATE_FAILURE',
 }
 
 export interface IAuthCredentials {
@@ -20,6 +23,6 @@ export interface IAuthCredentials {
 
 export interface IAuthAction {
     type: AuthActionTypes;
-    payload?: IAuthCredentials | IProfileState;
+    payload?: IAuthCredentials | IProfileState | string;
     message?: string;
 }

@@ -3,7 +3,7 @@ import { IAuthAction, IAuthCredentials } from '../auth/actions/types';
 import {
   loginRequest, loginSuccess, loginFailure,
   registerRequest, registerSuccess, registerFailure,
-  logoutSuccess,
+  logoutSuccess, validateRequest, validateFailure, validateSuccess,
 } from '../auth/actions';
 import { IProfileState } from '../context/types';
 import { loadProfile } from '../profile/actions';
@@ -65,6 +65,24 @@ const register = async (
   dispatch(registerSuccess('Nice! Please check your email to activate your account.'));
 };
 
+const validate = async (uuid: string, dispatch: Dispatch<IAuthAction>) => {
+  dispatch(validateRequest(uuid));
+  const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/validate`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ uuid }),
+  });
+  const responseBody = await response.json();
+  if (!response.ok) {
+    dispatch(validateFailure(responseBody.message));
+    return;
+  }
+  console.log(responseBody);
+  dispatch(validateSuccess(responseBody.message));
+};
+
 const isLoggedIn = (): boolean => {
   const userDataJson = localStorage.getItem('profile');
   return userDataJson !== null;
@@ -84,6 +102,7 @@ const authService = {
   register,
   isLoggedIn,
   getProfile,
+  validate,
 };
 
 export default authService;

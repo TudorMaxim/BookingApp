@@ -1,12 +1,13 @@
 import React from 'react';
 import Login from '../auth/components/Login';
 import Register from '../auth/components/Register';
+import Validate from '../auth/components/Validate';
 import Profile from '../profile/components/Profile';
 
 export interface IRoute {
-    path: string;
-    component: React.ReactNode;
-    isPrivate: boolean;
+  path: string;
+  component: React.ReactNode;
+  isPrivate: boolean;
 }
 
 const routes: IRoute[] = [{
@@ -32,6 +33,10 @@ const routes: IRoute[] = [{
 }, {
   path: '/register',
   component: <Register />,
+  isPrivate: false,
+}, {
+  path: '/validate/:uuid',
+  component: <Validate />,
   isPrivate: false,
 }, {
   path: '/',

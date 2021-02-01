@@ -2,9 +2,11 @@ import { IAuthState } from '../../context/types';
 import { IAuthAction, AuthActionTypes } from '../actions/types';
 
 const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
+  console.log(action.type);
   switch (action.type) {
     case AuthActionTypes.LOGIN_REQUEST:
     case AuthActionTypes.REGISTER_REQUEST:
+    case AuthActionTypes.VALIDATE_REQUEST:
       return {
         ...state,
         isLoading: true,
@@ -37,6 +39,20 @@ const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
         isLoading: false,
         isAuthenticated: false,
         isRegistered: false,
+        message: action.message,
+      };
+    case AuthActionTypes.VALIDATE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isValidated: true,
+        message: action.message,
+      };
+    case AuthActionTypes.VALIDATE_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isValidated: false,
         message: action.message,
       };
     default:

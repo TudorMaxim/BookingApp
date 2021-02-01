@@ -2,6 +2,7 @@ export interface IAuthState {
     isLoading: boolean;
     isAuthenticated: boolean;
     isRegistered: boolean;
+    isValidated: boolean;
     message?: string;
 }
 
