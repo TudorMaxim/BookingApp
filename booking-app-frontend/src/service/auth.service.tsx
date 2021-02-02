@@ -79,7 +79,6 @@ const validate = async (uuid: string, dispatch: Dispatch<IAuthAction>) => {
     dispatch(validateFailure(responseBody.message));
     return;
   }
-  console.log(responseBody);
   dispatch(validateSuccess(responseBody.message));
 };
 

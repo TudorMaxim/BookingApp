@@ -10,6 +10,11 @@ const profileReducer = (state: IProfileState, action: IProfileAction): IProfileS
         email: action.payload ? action.payload.email : '',
         token: action.payload ? action.payload.token : '',
       };
+    case ProfileActionTypes.UPDATE_INPUT:
+      return {
+        ...state,
+        [action.inputPayload!.key]: action.inputPayload!.value,
+      };
     default:
       return state;
   }

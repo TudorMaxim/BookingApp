@@ -10,6 +10,9 @@ export interface IProfileState {
     name: string;
     email: string;
     token: string;
+    company?: string;
+    description?: string;
+    image?: string;
 }
 
 export interface IState {

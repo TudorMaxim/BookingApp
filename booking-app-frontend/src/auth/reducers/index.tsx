@@ -2,7 +2,6 @@ import { IAuthState } from '../../context/types';
 import { IAuthAction, AuthActionTypes } from '../actions/types';
 
 const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
-  console.log(action.type);
   switch (action.type) {
     case AuthActionTypes.LOGIN_REQUEST:
     case AuthActionTypes.REGISTER_REQUEST:
