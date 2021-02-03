@@ -1,4 +1,6 @@
-import { FunctionComponent, useState, useEffect } from 'react';
+import {
+  FunctionComponent, useState, useEffect, Dispatch, SetStateAction,
+} from 'react';
 import { Form } from 'react-bootstrap';
 import { Validator } from '../validators';
 
@@ -13,7 +15,9 @@ interface FormInputProps {
     changeHandler: (newState: string) => void;
 }
 
-export const useFormInput = (validate: Validator) => {
+type IFormInput = string | boolean | Dispatch<SetStateAction<string>>
+
+export const useFormInput = (validate: Validator): IFormInput[] => {
   const [value, setValue] = useState('');
   const [valid, setValid] = useState(false);
 

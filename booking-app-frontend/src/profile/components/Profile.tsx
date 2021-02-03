@@ -1,20 +1,36 @@
-import { FunctionComponent } from 'react';
+import { ChangeEvent, FunctionComponent } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useStore } from '../../context/store';
 import authService from '../../service/auth.service';
+import profileService from '../../service/profile.service';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.png';
-import { updateInput } from '../actions';
+import { updateImage, updateInput } from '../actions';
 import './Profile.sass';
 
 const Profile: FunctionComponent = () => {
   const { state, dispatch } = useStore();
-  const { name, company, image } = state.profile;
-  const imageSrc = image || DefaultProfileImage;
+  const {
+    name, company, image, imageURL,
+  } = state.profile;
+  const imageSrc = imageURL || DefaultProfileImage;
+
+  const onImageChange = (event: ChangeEvent) => {
+    const { files } = event.target as HTMLInputElement;
+    if (!files) {
+      return;
+    }
+    dispatch(updateImage(files[0]));
+  };
+
+  const onSubmit = () => {
+    profileService.uploadImage(image);
+  };
+
   return (
     <div className="profile-form-wrapper">
       <div className="profile-image-upload">
         <img className="user-profile-image" src={imageSrc} alt="Profile" />
-        <Form.Control type="file" onChange={(event) => dispatch(updateInput('image', event.target.value))} />
+        <Form.Control type="file" accept="image/*" onChange={onImageChange} />
       </div>
       <Form className="profile-form-data">
         <Form.Group>
@@ -29,7 +45,7 @@ const Profile: FunctionComponent = () => {
           <Form.Label> Description </Form.Label>
           <Form.Control as="textarea" rows={5} />
         </Form.Group>
-        <Button variant="primary" onClick={() => console.log('TODO: Submit new data')}> SAVE </Button>
+        <Button variant="primary" onClick={onSubmit}> SAVE </Button>
         <Button variant="danger" className="right" onClick={() => authService.logout(dispatch)}> LOG OUT </Button>
       </Form>
     </div>

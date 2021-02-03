@@ -15,6 +15,11 @@ const profileReducer = (state: IProfileState, action: IProfileAction): IProfileS
         ...state,
         [action.inputPayload!.key]: action.inputPayload!.value,
       };
+    case ProfileActionTypes.UPDATE_IMAGE:
+      return {
+        ...state,
+        image: action.image,
+      };
     default:
       return state;
   }

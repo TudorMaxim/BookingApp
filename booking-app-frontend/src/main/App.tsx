@@ -7,6 +7,7 @@ import { loginSuccess } from '../auth/actions';
 import { loadProfile } from '../profile/actions';
 import routes, { IRoute } from '../config/routes';
 import authService from '../service/auth.service';
+import profileService from '../service/profile.service';
 import Header from '../common/Header';
 
 const AppRoute: FunctionComponent<IRoute> = ({ path, component, isPrivate }) => {
@@ -28,7 +29,7 @@ const AppRoute: FunctionComponent<IRoute> = ({ path, component, isPrivate }) => 
 const App: FunctionComponent = () => {
   const { state, dispatch } = useStore();
   useEffect(() => {
-    const profile = authService.getProfile();
+    const profile = profileService.getProfile();
     if (profile && !state.auth.isAuthenticated) {
       dispatch(loginSuccess(profile));
       dispatch(loadProfile(profile));

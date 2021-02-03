@@ -10,3 +10,8 @@ export const updateInput = (key: string, value: string): IProfileAction => ({
   type: ProfileActionTypes.UPDATE_INPUT,
   inputPayload: { key, value },
 });
+
+export const updateImage = (image: File): IProfileAction => ({
+  type: ProfileActionTypes.UPDATE_IMAGE,
+  image,
+});

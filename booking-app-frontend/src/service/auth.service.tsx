@@ -65,7 +65,7 @@ const register = async (
   dispatch(registerSuccess('Nice! Please check your email to activate your account.'));
 };
 
-const validate = async (uuid: string, dispatch: Dispatch<IAuthAction>) => {
+const validate = async (uuid: string, dispatch: Dispatch<IAuthAction>): Promise<void> => {
   dispatch(validateRequest(uuid));
   const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/validate`, {
     method: 'POST',
@@ -87,20 +87,11 @@ const isLoggedIn = (): boolean => {
   return userDataJson !== null;
 };
 
-const getProfile = (): IProfileState | undefined => {
-  const jsonProfile = localStorage.getItem('profile');
-  if (jsonProfile) {
-    return JSON.parse(jsonProfile) as IProfileState;
-  }
-  return undefined;
-};
-
 const authService = {
   login,
   logout,
   register,
   isLoggedIn,
-  getProfile,
   validate,
 };
 

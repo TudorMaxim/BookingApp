@@ -7,12 +7,14 @@ export interface IAuthState {
 }
 
 export interface IProfileState {
+    uuid?: string;
     name: string;
     email: string;
     token: string;
     company?: string;
     description?: string;
-    image?: string;
+    imageURL?: string;
+    image?: File;
 }
 
 export interface IState {
