@@ -4,6 +4,9 @@ export default interface IUser {
     email: string;
     password: string;
     validated: boolean;
-    createdAt: string;
-    updatedAt: string;
+    company?: string;
+    description?: string;
+    imageURL?: string;
+    createdAt?: string;
+    updatedAt?: string;
 }

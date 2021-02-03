@@ -1,6 +1,7 @@
 import * as AWS from 'aws-sdk'; 
 import IUser from '../model/IUser';
 import { v4 as uuid } from 'uuid';
+import { userInfo } from 'os';
 
 export default class UsersRepository {
     private dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -58,6 +59,21 @@ export default class UsersRepository {
         }).promise();
     }
 
+    public async updateUser(user: IUser) {
+        return this.dynamodb.update({
+            TableName: process.env.USERS_TABLE!,
+            Key: {
+                uuid: user.uuid
+            },
+            UpdateExpression: "set name = :name company = :company description = :description updatedAt = :updatedAt",
+            ExpressionAttributeValues: {
+                ":name": user.name,
+                "company": user.company,
+                "description": user.description,
+                ":updatedAt": new Date(Date.now()).toISOString(),
+            }
+        }).promise();
+    }
     public async getAllUsers() {
         return this.dynamodb.scan({
             TableName: process.env.USERS_TABLE!
