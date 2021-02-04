@@ -1,10 +1,10 @@
 import * as middy from 'middy';
 import { cors } from 'middy/middlewares';
 import { APIGatewayProxyHandler } from "aws-lambda";
-import AuthService from "../../service/AuthService";
-import api from "../../utils/ApiResponse";
+import api from "../../utils/APIResponse";
+import User from '../../model/User';
 
-const validate: APIGatewayProxyHandler = async event => {
+const activate: APIGatewayProxyHandler = async event => {
     if (!event.body) {
         return api.response({
             status: 400,
@@ -13,11 +13,10 @@ const validate: APIGatewayProxyHandler = async event => {
     }
     try {
         const { uuid } = JSON.parse(event.body);
-        const authService = new AuthService();
-        await authService.validateUser(uuid);
+        await User.activateAccount(uuid);
         return api.response({
-            status: 200, 
-            body: { message: 'User validated successfully!' }
+            status: 200,
+            body: { message: 'Account activated successfully!' }
         });
     } catch(err) {
         return api.response({
@@ -27,4 +26,4 @@ const validate: APIGatewayProxyHandler = async event => {
     }
 };
 
-export const handler = middy(validate).use(cors());
+export const handler = middy(activate).use(cors());

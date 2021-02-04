@@ -58,11 +58,11 @@ functions:
           method: POST
           cors: true
 
-  validate:
-    handler: src/lambdas/auth/validate.handler
+  activate:
+    handler: src/lambdas/auth/activate.handler
     events:
       - http:
-          path: /api/validate
+          path: /api/activate
           method: POST
           cors: true
   
@@ -73,6 +73,7 @@ functions:
           path: /api/users
           method: GET
           cors: true
+  
   hello:
     handler: src/lambdas/handler.hello
     events:

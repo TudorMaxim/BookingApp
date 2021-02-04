@@ -2,10 +2,8 @@ import {
     APIGatewayAuthorizerCallback, APIGatewayTokenAuthorizerEvent, 
     APIGatewayAuthorizerResult, Context
 } from 'aws-lambda';
-import UserService from '../../service/UserService';
-import * as jwt from 'jsonwebtoken';
-
-const userService = new UserService();
+import User from '../../model/User';
+import authService from '../../service/AuthService';
 
 const generateAuthorizerResult = (
     principalId: string, 
@@ -33,9 +31,12 @@ export const handler = async (
         return callback('Unauthorized');
     }
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await userService.findUserByEmail(decoded.email);
-        return callback(null, generateAuthorizerResult(user.email, 'Allow', event.methodArn));
+        const decoded = authService.verify(token);
+        const user = await User.findByEmail(decoded.email);
+        if (!user) {
+            return callback('Unauthorized');
+        }
+        return callback(null, generateAuthorizerResult(user.attributes.email!, 'Allow', event.methodArn));
     } catch(err) {
         return callback('Unauthorized');
     }

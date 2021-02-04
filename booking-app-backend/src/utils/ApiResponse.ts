@@ -6,13 +6,14 @@ interface IAPIResponse {
     headers?: any;
 }
 
-const response = ({ status, body, headers }: IAPIResponse): APIGatewayProxyResult => ({
-    statusCode: status,
-    body: JSON.stringify(body, null, 2),
-    headers: headers
-});
+class APIResponse {
+    public response = ({ status, body, headers }: IAPIResponse): APIGatewayProxyResult => ({
+        statusCode: status,
+        body: JSON.stringify(body, null, 2),
+        headers: headers
+    });
+}
 
-const api = {
-    response
-};
-export default api; 
+const api = new APIResponse();
+
+export default api;

@@ -1,10 +1,8 @@
 import * as middy from 'middy';
 import { cors } from 'middy/middlewares';
 import { APIGatewayProxyHandler } from "aws-lambda";
-import AuthService from "../../service/AuthService";
-import api from "../../utils/ApiResponse";
-
-const authService = new AuthService();
+import authService from "../../service/AuthService";
+import api from "../../utils/APIResponse";
 
 const login: APIGatewayProxyHandler = async event => {
     if (!event.body) {

@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { SendEmailRequest } from 'aws-sdk/clients/ses';
-import IUser from '../model/IUser';
+import User from '../model/User';
 
 interface IEmailData {
     sender: string;
@@ -9,28 +9,24 @@ interface IEmailData {
     htmlBody: string;
 }
 
-export default class EmailSender {
-    private ses: AWS.SES;
+class EmailSender {
+    private ses = new AWS.SES();
 
-    public constructor() {
-        this.ses = new AWS.SES();
-    }
-
-    public async sendTo(user: IUser): Promise<void> {
+    public async sendTo(user: User): Promise<void> {
         const data = this.registrationEmailFor(user);
         const params = this.buildParams(data);
         await this.ses.sendEmail(params).promise();
     }
 
-    private registrationEmailFor(user: IUser): IEmailData {
+    private registrationEmailFor(user: User): IEmailData {
         const sender: string = process.env.EMAIL_SENDER || '';
-        const registrationLink = `${process.env.FRONTEND_HOST}/validate/${user.uuid}`;
+        const registrationLink = `${process.env.FRONTEND_HOST}/activate/${user.attributes.uuid}`;
         return {
             sender,
-            receiver: user.email,
-            subject: 'Validate your email!',
+            receiver: user.attributes.email!,
+            subject: 'Activate your account!',
             htmlBody: `<h1> Welcome to the Booking App! </h1> 
-                    <p> Please follow <a href="${registrationLink}"> this link </a> to validate your email. </p>`
+                    <p> Please follow <a href="${registrationLink}"> this link </a> to activate your account. </p>`
         }
     }
 
@@ -53,3 +49,6 @@ export default class EmailSender {
         }
     });
 }
+
+const emailSender = new EmailSender();
+export default emailSender;

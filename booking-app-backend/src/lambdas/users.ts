@@ -1,13 +1,11 @@
 import { APIGatewayProxyHandler } from "aws-lambda"
-import UsersRepository from "../repository/UsersRepository"
+import User from "../model/User";
+import api from "../utils/APIResponse";
 
 export const handler: APIGatewayProxyHandler = async () => {
-    const usersRepository = new UsersRepository();
-    const users = await usersRepository.getAllUsers();
-    return {
-        statusCode: 200,
-        body: JSON.stringify({
-            users,
-        }, null, 2),
-    };
+    const users = await User.getAll();
+    return api.response({
+        status: 200,
+        body: { users }
+    });
 }
