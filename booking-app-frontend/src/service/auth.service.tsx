@@ -65,9 +65,9 @@ const register = async (
   dispatch(registerSuccess('Nice! Please check your email to activate your account.'));
 };
 
-const validate = async (uuid: string, dispatch: Dispatch<IAuthAction>) => {
+const activateAccount = async (uuid: string, dispatch: Dispatch<IAuthAction>) => {
   dispatch(validateRequest(uuid));
-  const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/validate`, {
+  const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/activate`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ const authService = {
   register,
   isLoggedIn,
   getProfile,
-  validate,
+  activateAccount,
 };
 
 export default authService;

@@ -39,7 +39,7 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, submitHandler }) => 
   const credentials: IAuthCredentials = {
     email: email as string,
     password: password as string,
-    username: username as string,
+    name: username as string,
   };
   const isRegister: boolean = type === AuthFormTypes.REGISTER;
   const isRecover: boolean = type === AuthFormTypes.RECOVER;
