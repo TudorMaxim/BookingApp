@@ -20,7 +20,7 @@ class EmailSender {
 
     private registrationEmailFor(user: User): IEmailData {
         const sender: string = process.env.EMAIL_SENDER || '';
-        const registrationLink = `${process.env.FRONTEND_HOST}/activate/${user.attributes.uuid}`;
+        const registrationLink = `${process.env.FRONTEND_HOST}/activate/${user.attributes.id}`;
         return {
             sender,
             receiver: user.attributes.email!,

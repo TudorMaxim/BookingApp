@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 export interface IUserAttributes {
-    uuid?: string;
+    id?: string;
     name?: string;
     email?: string;
     password?: string;
@@ -23,7 +23,7 @@ export default class User {
     public static async create(name: string, email: string, password: string): Promise<User> {
         const currentTime = new Date(Date.now()).toISOString()
         const user = new User({
-            uuid: uuid(),
+            id: uuid(),
             name, 
             email,
             password,
@@ -42,17 +42,21 @@ export default class User {
         }).promise();
     }
 
-    public static async activateAccount(uuid: string): Promise<void> {
+    public static async activateAccount(id: string): Promise<void> {
         await dynamodb.update({
             TableName: process.env.USERS_TABLE!,
-            Key: { uuid },
+            Key: { id },
+            ConditionExpression: "id = :id",
             UpdateExpression: "set activated = :activated, updatedAt = :updatedAt",
             ExpressionAttributeValues: {
+                ":id": id,
                 ":activated": true,
                 ":updatedAt": new Date(Date.now()).toISOString()
             },
             ReturnValues: "NONE"
-        }).promise();
+        }).promise().catch(_ => { 
+            throw new Error(`Error: Could not activate account with id ${id}!`);
+        });
     }
 
     public static async findByEmail(email: string): Promise<User | undefined> {
@@ -70,13 +74,13 @@ export default class User {
         return new User(result.Items[0]);
     }
 
-    public static async findById(uuid: string): Promise<User> {
+    public static async findById(id: string): Promise<User> {
         const result = await dynamodb.get({
             TableName: process.env.USERS_TABLE!,
-            Key: { uuid }
+            Key: { id }
         }).promise();
         if (!result.Item) {
-            throw new Error(`Error: User with email ${uuid} does not exist!`);
+            throw new Error(`Error: User with email ${id} does not exist!`);
         }
         return new User(result.Item);
     }
