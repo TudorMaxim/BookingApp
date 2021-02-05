@@ -23,6 +23,7 @@ provider:
     shouldStartNameWithService: true
   
   environment:
+    REGION: ${self:provider.region}
     USERS_TABLE: ${self:service}-${self:provider.stage}-users-table
     USERS_EMAIL_INDEX: ${self:provider.environment.USERS_TABLE}-email-index
     S3_IMAGES_BUCKET_NAME: ${self:service}-${self:provider.stage}-images-bucket
@@ -55,29 +56,21 @@ functions:
           method: POST
           cors: true
   
-  users:
-    handler: src/lambdas/users.handler
-    events:
-      - http:
-          path: /api/users
-          method: GET
-          cors: true
-  
-  hello:
-    handler: src/lambdas/handler.hello
-    events:
-      - http:
-          path: /hello
-          method: GET
-          cors: true
-          authorizer: authorize
-  
   updateProfile:
     handler: src/lambdas/profile/update.handler
     events:
       - http:
-          path: /profile
+          path: /api/profile
           method: POST
+          cors: true
+          authorizer: authorize
+  
+  getProfile:
+    handler: src/lambdas/profile/get.handler
+    events:
+      - http:
+          path: /api/users
+          method: GET
           cors: true
           authorizer: authorize
 

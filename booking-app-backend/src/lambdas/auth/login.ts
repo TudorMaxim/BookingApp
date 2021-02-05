@@ -2,12 +2,11 @@ import * as middy from 'middy';
 import { cors } from 'middy/middlewares';
 import { APIGatewayProxyHandler } from "aws-lambda";
 import authService from "../../service/AuthService";
-import api from "../../utils/APIResponse";
+import apiResponse from '../../utils/APIResponse';
 
 const login: APIGatewayProxyHandler = async event => {
     if (!event.body) {
-        return api.response({
-            status: 401,
+        return apiResponse.badRequest({
             body: { message: 'Error: Missing email and password!' }
         });
     }
@@ -15,16 +14,15 @@ const login: APIGatewayProxyHandler = async event => {
     try {
         const user = await authService.login(email, password);
         const token = authService.getTokenFor(user);
-        return api.response({
-            status: 200,
+        return apiResponse.success({
             body: {
                 auth: true,
                 token,
+                user: user.toDTO()
             }
         });
     } catch(err) {
-        return api.response({
-            status: 400,
+        return apiResponse.badRequest({
             body: { message: err.message }
         });
     }

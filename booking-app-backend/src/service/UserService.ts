@@ -5,16 +5,36 @@ const s3 = new AWS.S3();
 
 class UserService {
 
-    public async update(userAttributes: IUserAttributes, image): Promise<void> {
-        const imageURL = await this.uploadImage(userAttributes.id!, image);
-        await User.update({
-            ...userAttributes,
-            imageURL
-        });
+    public async update(body): Promise<User> {
+        const { id, name, company, description, mimeType } = body;
+        const user = await User.findById(id!);
+        let userAttributes: IUserAttributes = {
+            name, 
+            company,
+            description
+        };
+        if (mimeType) {
+            const extension = mimeType.split('/')[1];
+            const key = `images/${id}.${extension}`;
+            userAttributes = {
+                ...userAttributes,
+                hasImage: true,
+                imageKey: key,    
+            }
+        }
+        await user.update(userAttributes);
+        return user;
     }
 
-    private async uploadImage(id: string, image): Promise<string> {
-        return '';
+    public getSignedUrl(id: string, mimeType: string): string {
+        const extension = mimeType.split('/')[1];
+        const key = `images/${id}.${extension}`;
+        return s3.getSignedUrl('putObject', {
+            Bucket: process.env.S3_IMAGES_BUCKET_NAME,
+            Key: key,
+            ACL: 'public-read',
+            ContentType: mimeType
+        });
     }
 }
 
