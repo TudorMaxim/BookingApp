@@ -8,12 +8,12 @@ const activate: APIGatewayProxyHandler = async event => {
     if (!event.body) {
         return api.response({
             status: 400,
-            body: { message: 'Error: Invalid uuid!' }
+            body: { message: 'Error: Invalid id!' }
         });
     }
     try {
-        const { uuid } = JSON.parse(event.body);
-        await User.activateAccount(uuid);
+        const { id } = JSON.parse(event.body);
+        await User.activateAccount(id);
         return api.response({
             status: 200,
             body: { message: 'Account activated successfully!' }
