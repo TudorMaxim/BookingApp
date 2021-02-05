@@ -37,9 +37,9 @@ export const logoutSuccess = (): IAuthAction => ({
   message: 'Good bye!',
 });
 
-export const activateRequest = (uuid: string): IAuthAction => ({
+export const activateRequest = (id: string): IAuthAction => ({
   type: AuthActionTypes.ACTIVATE_REQUEST,
-  payload: uuid,
+  payload: id,
 });
 
 export const activateSuccess = (message: string): IAuthAction => ({

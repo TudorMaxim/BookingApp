@@ -35,7 +35,7 @@ const routes: IRoute[] = [{
   component: <Register />,
   isPrivate: false,
 }, {
-  path: '/activate/:uuid',
+  path: '/activate/:id',
   component: <Activate />,
   isPrivate: false,
 }, {

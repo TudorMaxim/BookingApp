@@ -65,14 +65,14 @@ const register = async (
   dispatch(registerSuccess('Nice! Please check your email to activate your account.'));
 };
 
-const activateAccount = async (uuid: string, dispatch: Dispatch<IAuthAction>) => {
-  dispatch(activateRequest(uuid));
+const activateAccount = async (id: string, dispatch: Dispatch<IAuthAction>) => {
+  dispatch(activateRequest(id));
   const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/activate`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ uuid }),
+    body: JSON.stringify({ id }),
   });
   const responseBody = await response.json();
   if (!response.ok) {

@@ -1,31 +1,48 @@
-import { FunctionComponent, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { FunctionComponent, useEffect, useState } from 'react';
+import { ClipLoader } from 'react-spinners';
+import { Redirect, useParams } from 'react-router-dom';
 import { useStore } from '../../context/store';
 import authService from '../../service/auth.service';
+import './Activate.sass';
 
 interface IParams {
-    uuid: string;
+    id: string;
 }
 
-const Activate: FunctionComponent = () => {
+const useActivate = (): boolean[] => {
   const { state, dispatch } = useStore();
   const { isLoading, isActivated, message } = state.auth;
-  const { uuid } = useParams<IParams>();
+  const { id } = useParams<IParams>();
+  const [showLoader, setShowLoader] = useState(true);
+
   useEffect(() => {
     if (!isActivated) {
-      authService.activateAccount(uuid, dispatch);
+      authService.activateAccount(id, dispatch);
     }
   }, [isActivated]);
-  if (isLoading) {
+
+  useEffect(() => {
+    if (!isLoading && message) {
+      const timeout = setTimeout(() => setShowLoader(false), 2000);
+      return () => clearTimeout(timeout);
+    }
+    return () => null;
+  });
+
+  return [showLoader, isActivated];
+};
+
+const Activate: FunctionComponent = () => {
+  const [showLoader, isActivated] = useActivate();
+  const redirectURL = isActivated ? '/login' : '/register';
+  if (showLoader) {
     return (
-      <p> Loading...</p>
+      <div className="activate-wrapper">
+        <ClipLoader size={200} />
+      </div>
     );
   }
-  return (
-    <p>
-      {message}
-    </p>
-  );
+  return <Redirect to={redirectURL} />;
 };
 
 export default Activate;
