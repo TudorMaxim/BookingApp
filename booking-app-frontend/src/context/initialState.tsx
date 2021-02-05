@@ -5,7 +5,7 @@ const initialState: IState = {
     isLoading: false,
     isAuthenticated: false,
     isRegistered: false,
-    isValidated: false,
+    isActivated: false,
   },
   profile: {
     name: '',

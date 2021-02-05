@@ -7,15 +7,15 @@ interface IParams {
     uuid: string;
 }
 
-const Validate: FunctionComponent = () => {
+const Activate: FunctionComponent = () => {
   const { state, dispatch } = useStore();
-  const { isLoading, isValidated, message } = state.auth;
+  const { isLoading, isActivated, message } = state.auth;
   const { uuid } = useParams<IParams>();
   useEffect(() => {
-    if (!isValidated) {
+    if (!isActivated) {
       authService.activateAccount(uuid, dispatch);
     }
-  }, [isValidated]);
+  }, [isActivated]);
   if (isLoading) {
     return (
       <p> Loading...</p>
@@ -28,4 +28,4 @@ const Validate: FunctionComponent = () => {
   );
 };
 
-export default Validate;
+export default Activate;

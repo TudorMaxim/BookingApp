@@ -3,7 +3,7 @@ import { IAuthAction, IAuthCredentials } from '../auth/actions/types';
 import {
   loginRequest, loginSuccess, loginFailure,
   registerRequest, registerSuccess, registerFailure,
-  logoutSuccess, validateRequest, validateFailure, validateSuccess,
+  logoutSuccess, activateSuccess, activateFailure, activateRequest,
 } from '../auth/actions';
 import { IProfileState } from '../context/types';
 import { loadProfile } from '../profile/actions';
@@ -66,7 +66,7 @@ const register = async (
 };
 
 const activateAccount = async (uuid: string, dispatch: Dispatch<IAuthAction>) => {
-  dispatch(validateRequest(uuid));
+  dispatch(activateRequest(uuid));
   const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/activate`, {
     method: 'POST',
     headers: {
@@ -76,11 +76,10 @@ const activateAccount = async (uuid: string, dispatch: Dispatch<IAuthAction>) =>
   });
   const responseBody = await response.json();
   if (!response.ok) {
-    dispatch(validateFailure(responseBody.message));
+    dispatch(activateFailure(responseBody.message));
     return;
   }
-  console.log(responseBody);
-  dispatch(validateSuccess(responseBody.message));
+  dispatch(activateSuccess(responseBody.message));
 };
 
 const isLoggedIn = (): boolean => {

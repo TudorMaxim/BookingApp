@@ -37,17 +37,17 @@ export const logoutSuccess = (): IAuthAction => ({
   message: 'Good bye!',
 });
 
-export const validateRequest = (uuid: string): IAuthAction => ({
-  type: AuthActionTypes.VALIDATE_REQUEST,
+export const activateRequest = (uuid: string): IAuthAction => ({
+  type: AuthActionTypes.ACTIVATE_REQUEST,
   payload: uuid,
 });
 
-export const validateSuccess = (message: string): IAuthAction => ({
-  type: AuthActionTypes.VALIDATE_SUCCESS,
+export const activateSuccess = (message: string): IAuthAction => ({
+  type: AuthActionTypes.ACTIVATE_SUCCESS,
   message,
 });
 
-export const validateFailure = (message: string): IAuthAction => ({
-  type: AuthActionTypes.VALIDATE_FAILURE,
+export const activateFailure = (message: string): IAuthAction => ({
+  type: AuthActionTypes.ACTIVATE_FAILURE,
   message,
 });
