@@ -1,23 +1,23 @@
-import IUser from '../model/IUser';
-import BaseUserService from './BaseUserService';
 import * as AWS from 'aws-sdk';
+import User, { IUserAttributes } from '../model/User';
 
-export default class UserService extends BaseUserService {
-    private s3 = new AWS.S3();
+const s3 = new AWS.S3();
 
-    public async findUserByEmail(email: string): Promise<IUser> {
-        const result = await this.usersRepository.findUserByEmail(email);
-        if (!result.Items || !result.Count || result.Count === 0) {
-            throw new Error(`Error: Could not find user with email ${email}.`);
-        }
-        return result.Items[0] as IUser;
+class UserService {
+
+    public async update(userAttributes: IUserAttributes, image): Promise<void> {
+        const imageURL = await this.uploadImage(userAttributes.id!, image);
+        await User.update({
+            ...userAttributes,
+            imageURL
+        });
     }
 
-    public async uploadImage(uuid: string, image): Promise<string> {
+    private async uploadImage(id: string, image): Promise<string> {
         return '';
     }
-
-    public async updateUser(user: IUser): Promise<void> {
-        const result = await this.usersRepository.updateUser(user);
-    }
 }
+
+const userService = new UserService();
+
+export default userService;

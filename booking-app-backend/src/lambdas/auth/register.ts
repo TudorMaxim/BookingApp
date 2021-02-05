@@ -1,12 +1,9 @@
 import * as middy from 'middy';
 import { cors } from 'middy/middlewares';
 import { APIGatewayProxyHandler } from "aws-lambda";
-import AuthService from '../../service/AuthService';
-import api from "../../utils/ApiResponse";
-import EmailSender from '../../utils/EmailSender';
-
-const authService = new AuthService();
-const emailSender = new EmailSender();
+import authService from '../../service/AuthService';
+import api from "../../utils/APIResponse";
+import emailSender from '../../utils/EmailSender';
 
 const register: APIGatewayProxyHandler = async event => {
     if (!event.body) {
