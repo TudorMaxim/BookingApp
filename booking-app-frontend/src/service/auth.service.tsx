@@ -3,7 +3,7 @@ import { IAuthAction, IAuthCredentials } from '../auth/actions/types';
 import {
   loginRequest, loginSuccess, loginFailure,
   registerRequest, registerSuccess, registerFailure,
-  logoutSuccess, validateRequest, validateFailure, validateSuccess,
+  logoutSuccess, activateSuccess, activateFailure, activateRequest,
 } from '../auth/actions';
 import { IProfileState } from '../context/types';
 import { loadProfile } from '../profile/actions';
@@ -65,21 +65,21 @@ const register = async (
   dispatch(registerSuccess('Nice! Please check your email to activate your account.'));
 };
 
-const validate = async (uuid: string, dispatch: Dispatch<IAuthAction>): Promise<void> => {
-  dispatch(validateRequest(uuid));
-  const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/validate`, {
+const activateAccount = async (id: string, dispatch: Dispatch<IAuthAction>) => {
+  dispatch(activateRequest(id));
+  const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/activate`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ uuid }),
+    body: JSON.stringify({ id }),
   });
   const responseBody = await response.json();
   if (!response.ok) {
-    dispatch(validateFailure(responseBody.message));
+    dispatch(activateFailure(responseBody.message));
     return;
   }
-  dispatch(validateSuccess(responseBody.message));
+  dispatch(activateSuccess(responseBody.message));
 };
 
 const isLoggedIn = (): boolean => {
@@ -92,7 +92,7 @@ const authService = {
   logout,
   register,
   isLoggedIn,
-  validate,
+  activateAccount,
 };
 
 export default authService;

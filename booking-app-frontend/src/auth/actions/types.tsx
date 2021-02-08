@@ -10,13 +10,13 @@ export enum AuthActionTypes {
     REGISTER_REQUEST = 'REGISTER_REQUEST',
     REGISTER_SUCCESS = 'REGISTER_SUCCESS',
     REGISTER_FAILURE = 'REGISTER_FAILURE',
-    VALIDATE_REQUEST = 'VALIDATE_REQUEST',
-    VALIDATE_SUCCESS = 'VALIDATE_SUCCESS',
-    VALIDATE_FAILURE = 'VALIDATE_FAILURE',
+    ACTIVATE_REQUEST = 'ACTIVATE_REQUEST',
+    ACTIVATE_SUCCESS = 'ACTIVATE_SUCCESS',
+    ACTIVATE_FAILURE = 'ACTIVATE_FAILURE',
 }
 
 export interface IAuthCredentials {
-    username?: string;
+    name?: string;
     email: string;
     password: string;
 }

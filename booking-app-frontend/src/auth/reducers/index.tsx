@@ -5,7 +5,7 @@ const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
   switch (action.type) {
     case AuthActionTypes.LOGIN_REQUEST:
     case AuthActionTypes.REGISTER_REQUEST:
-    case AuthActionTypes.VALIDATE_REQUEST:
+    case AuthActionTypes.ACTIVATE_REQUEST:
       return {
         ...state,
         isLoading: true,
@@ -40,18 +40,18 @@ const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
         isRegistered: false,
         message: action.message,
       };
-    case AuthActionTypes.VALIDATE_SUCCESS:
+    case AuthActionTypes.ACTIVATE_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        isValidated: true,
+        isActivated: true,
         message: action.message,
       };
-    case AuthActionTypes.VALIDATE_FAILURE:
+    case AuthActionTypes.ACTIVATE_FAILURE:
       return {
         ...state,
         isLoading: false,
-        isValidated: false,
+        isActivated: false,
         message: action.message,
       };
     default:

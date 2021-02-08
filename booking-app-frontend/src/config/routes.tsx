@@ -1,7 +1,7 @@
 import React from 'react';
 import Login from '../auth/components/Login';
 import Register from '../auth/components/Register';
-import Validate from '../auth/components/Validate';
+import Activate from '../auth/components/Activate';
 import Profile from '../profile/components/Profile';
 
 export interface IRoute {
@@ -35,8 +35,8 @@ const routes: IRoute[] = [{
   component: <Register />,
   isPrivate: false,
 }, {
-  path: '/validate/:uuid',
-  component: <Validate />,
+  path: '/activate/:id',
+  component: <Activate />,
   isPrivate: false,
 }, {
   path: '/',

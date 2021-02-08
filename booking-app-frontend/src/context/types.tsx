@@ -2,12 +2,12 @@ export interface IAuthState {
     isLoading: boolean;
     isAuthenticated: boolean;
     isRegistered: boolean;
-    isValidated: boolean;
+    isActivated: boolean;
     message?: string;
 }
 
 export interface IProfileState {
-    uuid?: string;
+    id?: string;
     name: string;
     email: string;
     token: string;

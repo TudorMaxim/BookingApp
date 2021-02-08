@@ -12,11 +12,12 @@ const uploadImage = async (image: File | undefined): Promise<void> => {
   if (!image) {
     return;
   }
+  console.log(image);
   const data = new FormData();
   const profile = getProfile();
   data.append('image', image);
-  data.append('uuid', profile!.uuid!);
-  const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/upload`, {
+  data.append('id', profile!.id!);
+  const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/profile`, {
     headers: {
       Authorization: `Bearer ${profile?.token}`,
     },

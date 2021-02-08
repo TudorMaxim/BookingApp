@@ -39,7 +39,7 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, submitHandler }) => 
   const credentials: IAuthCredentials = {
     email: email as string,
     password: password as string,
-    username: username as string,
+    name: username as string,
   };
   const isRegister: boolean = type === AuthFormTypes.REGISTER;
   const isRecover: boolean = type === AuthFormTypes.RECOVER;
@@ -63,7 +63,7 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, submitHandler }) => 
   return (
     <div className="auth-form-wrapper">
       <img id="logo-image" src={BookingAppLogo} alt="Booking app logo" />
-      {state.auth.message && validated && (
+      {state.auth.message && (
         <Flash success={success} message={state.auth.message} />
       )}
       <Form noValidate validated={validated} id="auth-form" onSubmit={handleSubmit}>
