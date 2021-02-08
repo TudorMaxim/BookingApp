@@ -19,4 +19,10 @@
 */yarn-debug.log*
 */yarn-error.log*
 */.eslintcache
-*/.env
+
+*/jspm_packages
+
+# Serverless directories
+*/.serverless
+*/.build
+.env
