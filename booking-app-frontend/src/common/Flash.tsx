@@ -5,9 +5,10 @@ import './Flash.sass';
 interface IFlashProps {
     success: boolean;
     message: string;
+    className?: string;
 }
 
-const Flash: FunctionComponent<IFlashProps> = ({ success, message }) => {
+const Flash: FunctionComponent<IFlashProps> = ({ success, message, className }) => {
   const [show, setShow] = useState(true);
   useEffect(() => {
     const timeout = setTimeout(() => setShow(false), 5000);
@@ -16,7 +17,7 @@ const Flash: FunctionComponent<IFlashProps> = ({ success, message }) => {
   const variant = success ? 'success' : 'danger';
   if (show) {
     return (
-      <Alert className="form-alert" dismissible variant={variant} onClose={() => setShow(false)}>
+      <Alert className={className} dismissible variant={variant} onClose={() => setShow(false)}>
         {message}
       </Alert>
     );

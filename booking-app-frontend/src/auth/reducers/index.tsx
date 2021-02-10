@@ -10,6 +10,7 @@ const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
         ...state,
         isLoading: true,
         message: undefined,
+        success: undefined,
       };
     case AuthActionTypes.LOGIN_FAILURE:
     case AuthActionTypes.REGISTER_FAILURE:
@@ -17,6 +18,7 @@ const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
         ...state,
         isLoading: false,
         message: action.message,
+        success: false,
       };
     case AuthActionTypes.LOGIN_SUCCESS:
       return {
@@ -24,6 +26,8 @@ const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
         isLoading: false,
         isAuthenticated: true,
         message: action.message,
+        success: true,
+        token: action.token as string,
       };
     case AuthActionTypes.REGISTER_SUCCESS:
       return {
@@ -31,6 +35,7 @@ const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
         isLoading: false,
         isRegistered: true,
         message: action.message,
+        success: true,
       };
     case AuthActionTypes.LOGOUT_SUCCESS:
       return {
@@ -38,7 +43,9 @@ const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
         isLoading: false,
         isAuthenticated: false,
         isRegistered: false,
+        token: '',
         message: action.message,
+        success: true,
       };
     case AuthActionTypes.ACTIVATE_SUCCESS:
       return {
@@ -46,6 +53,7 @@ const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
         isLoading: false,
         isActivated: true,
         message: action.message,
+        success: true,
       };
     case AuthActionTypes.ACTIVATE_FAILURE:
       return {
@@ -53,6 +61,7 @@ const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
         isLoading: false,
         isActivated: false,
         message: action.message,
+        success: false,
       };
     default:
       return state;

@@ -6,11 +6,14 @@ const initialState: IState = {
     isAuthenticated: false,
     isRegistered: false,
     isActivated: false,
+    token: '',
   },
   profile: {
     name: '',
     email: '',
-    token: '',
+    isLoading: false,
+    company: '',
+    description: '',
   },
 };
 

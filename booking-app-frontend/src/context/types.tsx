@@ -1,20 +1,25 @@
-export interface IAuthState {
+export interface IFlashState {
+    message?: string;
+    success?: boolean;
+}
+export interface IAuthState extends IFlashState {
     isLoading: boolean;
     isAuthenticated: boolean;
     isRegistered: boolean;
     isActivated: boolean;
-    message?: string;
+    token: string;
 }
 
-export interface IProfileState {
+export interface IProfileState extends IFlashState {
     id?: string;
     name: string;
     email: string;
-    token: string;
     company?: string;
     description?: string;
-    imageURL?: string;
+    hasImage?: boolean;
+    imageKey?: string;
     image?: File;
+    isLoading: boolean;
 }
 
 export interface IState {

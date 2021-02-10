@@ -1,15 +1,14 @@
 import { AuthActionTypes, IAuthCredentials, IAuthAction } from './types';
-import { IProfileState } from '../../context/types';
 
 export const loginRequest = (payload: IAuthCredentials): IAuthAction => ({
   type: AuthActionTypes.LOGIN_REQUEST,
   payload,
 });
 
-export const loginSuccess = (payload: IProfileState): IAuthAction => ({
+export const loginSuccess = (token: string): IAuthAction => ({
   type: AuthActionTypes.LOGIN_SUCCESS,
   message: 'Welcome!',
-  payload,
+  token,
 });
 
 export const loginFailure = (message: string): IAuthAction => ({
@@ -32,9 +31,9 @@ export const registerFailure = (message: string): IAuthAction => ({
   message,
 });
 
-export const logoutSuccess = (): IAuthAction => ({
+export const logoutSuccess = (message: string): IAuthAction => ({
   type: AuthActionTypes.LOGOUT_SUCCESS,
-  message: 'Good bye!',
+  message,
 });
 
 export const activateRequest = (id: string): IAuthAction => ({

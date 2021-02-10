@@ -4,14 +4,14 @@ import {
 } from 'react-router-dom';
 import { useStore } from '../context/store';
 import { loginSuccess } from '../auth/actions';
-import { loadProfile } from '../profile/actions';
+import { fetchProfileSuccess } from '../profile/actions';
 import routes, { IRoute } from '../config/routes';
-import authService from '../service/auth.service';
-import profileService from '../service/profile.service';
 import Header from '../common/Header';
+import storage from '../utils/storage';
 
 const AppRoute: FunctionComponent<IRoute> = ({ path, component, isPrivate }) => {
-  const loggedIn = authService.isLoggedIn();
+  const { state } = useStore();
+  const loggedIn = state.auth.isAuthenticated || storage.getToken() !== null;
   if (!loggedIn && isPrivate) {
     return <Redirect to="/login" />;
   }
@@ -29,10 +29,13 @@ const AppRoute: FunctionComponent<IRoute> = ({ path, component, isPrivate }) => 
 const App: FunctionComponent = () => {
   const { state, dispatch } = useStore();
   useEffect(() => {
-    const profile = profileService.getProfile();
-    if (profile && !state.auth.isAuthenticated) {
-      dispatch(loginSuccess(profile));
-      dispatch(loadProfile(profile));
+    const token = storage.getToken();
+    if (token && !state.auth.isAuthenticated) {
+      dispatch(loginSuccess(token));
+    }
+    const profile = storage.getProfile();
+    if (profile && state.profile.email !== profile.email) {
+      dispatch(fetchProfileSuccess(profile));
     }
   });
   return (

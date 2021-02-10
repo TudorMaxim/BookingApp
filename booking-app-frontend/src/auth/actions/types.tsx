@@ -25,4 +25,5 @@ export interface IAuthAction {
     type: AuthActionTypes;
     payload?: IAuthCredentials | IProfileState | string;
     message?: string;
+    token?: string;
 }

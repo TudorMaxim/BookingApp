@@ -6,8 +6,10 @@ import {
   logoutSuccess, activateSuccess, activateFailure, activateRequest,
 } from '../auth/actions';
 import { IProfileState } from '../context/types';
-import { loadProfile } from '../profile/actions';
+import { fetchProfileSuccess, clearProfile } from '../profile/actions';
 import { IProfileAction } from '../profile/actions/types';
+import storage from '../utils/storage';
+import { IAction } from '../context/rootReducer';
 
 const login = async (
   credentials: IAuthCredentials,
@@ -30,19 +32,18 @@ const login = async (
     dispatch(loginFailure(body.message));
     return;
   }
-  const profile: IProfileState = {
-    name: 'Tudor', // TODO: get this from backend
-    email: credentials.email,
-    token: body.token,
-  };
-  localStorage.setItem('profile', JSON.stringify(profile));
-  dispatch(loginSuccess(profile));
-  dispatch(loadProfile(profile));
+  const profile = body.user as IProfileState;
+  const token = body.token as string;
+  storage.setToken(token);
+  storage.setProfile(profile);
+  dispatch(loginSuccess(token));
+  dispatch(fetchProfileSuccess(profile));
 };
 
-const logout = (dispatch: Dispatch<IAuthAction>): void => {
-  localStorage.removeItem('profile');
-  dispatch(logoutSuccess());
+const logout = (message: string, dispatch: Dispatch<IAction>): void => {
+  storage.clear();
+  dispatch(clearProfile());
+  dispatch(logoutSuccess(message));
 };
 
 const register = async (
@@ -65,7 +66,7 @@ const register = async (
   dispatch(registerSuccess('Nice! Please check your email to activate your account.'));
 };
 
-const activateAccount = async (id: string, dispatch: Dispatch<IAuthAction>) => {
+const activateAccount = async (id: string, dispatch: Dispatch<IAuthAction>): Promise<void> => {
   dispatch(activateRequest(id));
   const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/activate`, {
     method: 'POST',
@@ -82,16 +83,10 @@ const activateAccount = async (id: string, dispatch: Dispatch<IAuthAction>) => {
   dispatch(activateSuccess(responseBody.message));
 };
 
-const isLoggedIn = (): boolean => {
-  const userDataJson = localStorage.getItem('profile');
-  return userDataJson !== null;
-};
-
 const authService = {
   login,
   logout,
   register,
-  isLoggedIn,
   activateAccount,
 };
 
