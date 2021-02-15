@@ -9,12 +9,16 @@ export interface IUserAttributes {
     email?: string;
     password?: string;
     activated?: boolean;
+    company?: string;
+    description?: string;
+    hasImage?: boolean;
+    imageKey?: string;
     createdAt?: string;
     updatedAt?: string;
 }
 
 export default class User {
-    public readonly attributes: IUserAttributes
+    public attributes: IUserAttributes
 
     public constructor(attributes: IUserAttributes = {}) {
         this.attributes = attributes;
@@ -35,7 +39,20 @@ export default class User {
         return user;
     }
 
-    public async save(): Promise<void> {
+    public async update(attributes: IUserAttributes): Promise<void> {
+        this.removeUndefinded(attributes);
+        if (Object.keys(attributes).length === 0) {
+            return;
+        }
+        this.attributes = {
+            ...this.attributes,
+            ...attributes,
+            updatedAt: new Date(Date.now()).toISOString()
+        };
+        await this.save();
+    }
+    
+    private async save(): Promise<void> {
         await dynamodb.put({
             TableName: process.env.USERS_TABLE!,
             Item: this.attributes
@@ -80,18 +97,24 @@ export default class User {
             Key: { id }
         }).promise();
         if (!result.Item) {
-            throw new Error(`Error: User with email ${id} does not exist!`);
+            throw new Error(`Error: User with id ${id} does not exist!`);
         }
         return new User(result.Item);
     }
 
-    public static async getAll(): Promise<User[]> {
-        const result = await dynamodb.scan({
-            TableName: process.env.USERS_TABLE!
-        }).promise();
-        if (!result.Items) {
-            return [];
-        }
-        return result.Items.map(attributes => new User(attributes));
+    public toDTO(): IUserAttributes {
+        return {
+            id: this.attributes.id,
+            name: this.attributes.name,
+            email: this.attributes.email,
+            company: this.attributes.company,
+            description: this.attributes.description,
+            hasImage: this.attributes.hasImage,
+            imageKey: this.attributes.imageKey,
+        };
+    }
+    
+    private removeUndefinded(attributes: IUserAttributes) {
+        Object.keys(attributes).forEach(key => attributes[key] === undefined && delete attributes[key]);
     }
 }

@@ -1,16 +1,3 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
 service: booking-app-backend
 frameworkVersion: '2'
 useDotenv: true
@@ -30,13 +17,16 @@ provider:
       Action: 
         - ses:*
         - dynamodb:*
+        - s3:*
       Resource: '*'
   apiGateway:
     shouldStartNameWithService: true
   
   environment:
+    REGION: ${self:provider.region}
     USERS_TABLE: ${self:service}-${self:provider.stage}-users-table
     USERS_EMAIL_INDEX: ${self:provider.environment.USERS_TABLE}-email-index
+    S3_IMAGES_BUCKET_NAME: ${self:service}-${self:provider.stage}-images-bucket
 
 functions:
   authorize: 
@@ -66,24 +56,26 @@ functions:
           method: POST
           cors: true
   
-  users:
-    handler: src/lambdas/users.handler
+  updateProfile:
+    handler: src/lambdas/profile/update.handler
+    events:
+      - http:
+          path: /api/profile
+          method: POST
+          cors: true
+          authorizer: authorize
+  
+  getProfile:
+    handler: src/lambdas/profile/get.handler
     events:
       - http:
           path: /api/users
           method: GET
           cors: true
-  
-  hello:
-    handler: src/lambdas/handler.hello
-    events:
-      - http:
-          path: /hello
-          method: GET
-          cors: true
           authorizer: authorize
-  
+
 resources:
   - ${file(./resources/dynamodb.yml)}
   - ${file(./resources/authorizer_cors.yml)}
+  - ${file(./resources/s3_images_bucket.yml)}
                 
