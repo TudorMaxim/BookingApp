@@ -1,11 +1,10 @@
 import { Dispatch } from 'react';
 import authService from './auth.service';
 import imagesService from './images.service';
-import { IAuthAction } from '../auth/actions/types';
-import { IProfileAction } from '../profile/actions/types';
 import { IProfileState } from '../context/types';
 import { updateFailure, updateRequest, updateSuccess } from '../profile/actions';
 import storage from '../utils/storage';
+import { IAction } from '../context/rootReducer';
 
 interface IUpdateRequestBody {
   id: string;
@@ -37,7 +36,7 @@ const getUpdateRequestBody = (profile: IProfileState): IUpdateRequestBody => {
 const updateProfile = async (
   profile: IProfileState,
   token: string,
-  dispatch: Dispatch<IAuthAction | IProfileAction>,
+  dispatch: Dispatch<IAction>,
 ): Promise<void> => {
   dispatch(updateRequest());
   const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/profile`, {

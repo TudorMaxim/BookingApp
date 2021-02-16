@@ -2,15 +2,16 @@ import {
   ChangeEvent, FormEvent, FunctionComponent, useRef,
 } from 'react';
 import { Form } from 'react-bootstrap';
-import StatefulButton from '../../common/StatefulButton';
 import { useStore } from '../../context/store';
 import authService from '../../service/auth.service';
 import profileService from '../../service/profile.service';
 import imagesService from '../../service/images.service';
-import DefaultProfileImage from '../../assets/DefaultProfileImage.png';
 import { updateImage, updateInput } from '../actions';
-import './Profile.sass';
-import Flash from '../../common/Flash';
+import Flash from '../../common/components/Flash';
+import StatefulButton from '../../common/components/StatefulButton';
+import DefaultProfileImage from '../../assets/DefaultProfileImage.png';
+import FormInput from '../../common/components/FormInput';
+import '../styles/Profile.sass';
 
 const Profile: FunctionComponent = () => {
   const { state, dispatch } = useStore();
@@ -47,18 +48,25 @@ const Profile: FunctionComponent = () => {
           <input type="file" accept="image/*" ref={imageRef} onChange={onImageChange} />
         </div>
         <div className="profile-form-data">
-          <Form.Group>
-            <Form.Label> Name </Form.Label>
-            <Form.Control type="text" value={name} onChange={(event) => dispatch(updateInput('name', event.target.value))} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label> Company </Form.Label>
-            <Form.Control type="text" value={company} onChange={(event) => dispatch(updateInput('company', event.target.value))} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label> Description </Form.Label>
-            <Form.Control as="textarea" rows={5} value={description} onChange={(event) => dispatch(updateInput('description', event.target.value))} />
-          </Form.Group>
+          <FormInput
+            type="text"
+            label="Name"
+            value={name}
+            onChange={(e) => dispatch(updateInput('name', e.target.value))}
+          />
+          <FormInput
+            type="text"
+            label="Company"
+            value={company || ''}
+            onChange={(e) => dispatch(updateInput('company', e.target.value))}
+          />
+          <FormInput
+            as="textarea"
+            rows={5}
+            label="Description"
+            value={description || ''}
+            onChange={(e) => dispatch(updateInput('description', e.target.value))}
+          />
           <StatefulButton type="submit" variant="primary" text="SAVE" isLoading={isLoading} />
           <StatefulButton
             isLoading={false}

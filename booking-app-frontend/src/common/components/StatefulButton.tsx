@@ -1,6 +1,6 @@
 import { FunctionComponent, MouseEventHandler } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
-import './StatefulButton.sass';
+import '../styles/StatefulButton.sass';
 
 interface StatefulButtonProps {
     isLoading: boolean;

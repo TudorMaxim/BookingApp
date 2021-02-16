@@ -1,9 +1,8 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { ClipLoader } from 'react-spinners';
 import { Redirect, useParams } from 'react-router-dom';
 import { useStore } from '../../context/store';
 import authService from '../../service/auth.service';
-import './Activate.sass';
+import LoadingSpinner from '../../common/components/LoadingSpinner';
 
 interface IParams {
     id: string;
@@ -36,11 +35,7 @@ const Activate: FunctionComponent = () => {
   const [showLoader, isActivated] = useActivate();
   const redirectURL = isActivated ? '/login' : '/register';
   if (showLoader) {
-    return (
-      <div className="activate-wrapper">
-        <ClipLoader size={200} />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
   return <Redirect to={redirectURL} />;
 };
