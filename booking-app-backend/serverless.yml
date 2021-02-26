@@ -24,9 +24,10 @@ provider:
   
   environment:
     REGION: ${self:provider.region}
-    USERS_TABLE: ${self:service}-${self:provider.stage}-users-table
-    USERS_EMAIL_INDEX: ${self:provider.environment.USERS_TABLE}-email-index
+    DYNAMODB_TABLE: ${self:service}-${self:provider.stage}-table
+    USERS_EMAIL_INDEX: ${self:provider.environment.DYNAMODB_TABLE}-email-index
     S3_IMAGES_BUCKET_NAME: ${self:service}-${self:provider.stage}-images-bucket
+    BOOKING_USERS_INDEX: ${self:provider.environment.DYNAMODB_TABLE}-booking-users-index
 
 functions:
   authorize: 
