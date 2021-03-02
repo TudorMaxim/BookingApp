@@ -3,12 +3,11 @@ import {
     APIGatewayAuthorizerResult, Context
 } from 'aws-lambda';
 import User from '../../model/User';
-import authService from '../../service/AuthService';
+import authController from '../../controller/AuthController';
 
 const generateAuthorizerResult = (
     principalId: string, 
-    effect: string, 
-    resource: string
+    effect: string,
 ): APIGatewayAuthorizerResult => ({
     principalId, 
     policyDocument: {
@@ -16,7 +15,7 @@ const generateAuthorizerResult = (
         Statement: [{
             Action: 'execute-api:Invoke',
             Effect: effect,
-            Resource: resource
+            Resource: '*'
         }]
     }
 });
@@ -31,12 +30,12 @@ export const handler = async (
         return callback('Unauthorized');
     }
     try {
-        const decoded = authService.verify(token);
+        const decoded = authController.verify(token);
         const user = await User.findByEmail(decoded.email);
         if (!user) {
             return callback('Unauthorized');
         }
-        return callback(null, generateAuthorizerResult(user.attributes.email!, 'Allow', event.methodArn));
+        return callback(null, generateAuthorizerResult('api', 'Allow'));
     } catch(err) {
         return callback('Unauthorized');
     }

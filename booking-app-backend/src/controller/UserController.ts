@@ -3,7 +3,7 @@ import User, { IUserAttributes } from '../model/User';
 
 const s3 = new AWS.S3();
 
-class UserService {
+class UserController {
 
     public async update(body): Promise<User> {
         const { id, name, company, description, mimeType } = body;
@@ -38,6 +38,6 @@ class UserService {
     }
 }
 
-const userService = new UserService();
+const userController = new UserController();
 
-export default userService;
+export default userController;

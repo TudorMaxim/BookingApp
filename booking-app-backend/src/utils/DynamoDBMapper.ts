@@ -34,7 +34,7 @@ const mapServiceToDynamoDBItem = (service: Service): IDynamoDBItem => {
     let item: IDynamoDBItem = {
         ...service.attributes,
         PK: EntityType.USER + (service.attributes.userId as string),
-        SK: EntityType.USER + (service.attributes.id as string),
+        SK: EntityType.SERVICE + (service.attributes.id as string),
     };
     delete item.id;
     delete item.userId;
@@ -74,23 +74,14 @@ const mapDynamoDBItemToService = (item: IDynamoDBItem): Service => {
         else if (key === 'SK') attributes.id = getId(item[key]);
         else attributes[key] = item[key];
     })
-    return new User(attributes);
-};
-
-const mapDynamoDBItemToEntity = (item: IDynamoDBItem): Entity | undefined => {
-    const { PK, SK } = item;
-    if (PK.includes(EntityType.USER) && SK.includes(EntityType.USER)) {
-        return mapDynamoDBItemToUser(item);
-    } else if (PK.includes(EntityType.USER) && SK.includes(EntityType.SERVICE)) {
-        return mapDynamoDBItemToService(item);
-    }
+    return new Service(attributes);
 };
 
 const dynamodbMapper = {
     getDynamoDBKey,
     mapEntityToDynamoDBItem,
-    mapDynamoDBItemToEntity,
     mapDynamoDBItemToUser,
+    mapDynamoDBItemToService,
 }
 
 export default dynamodbMapper;

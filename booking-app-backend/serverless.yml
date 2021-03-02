@@ -74,6 +74,56 @@ functions:
           method: GET
           cors: true
           authorizer: authorize
+  
+  createService:
+    handler: src/lambdas/service/create.handler
+    events:
+      - http:
+          path: /api/services
+          method: POST
+          cors: true
+          authorizer: authorize
+  
+  userServices:
+    handler: src/lambdas/service/getUserServices.handler
+    events:
+      - http:
+          path: /api/services
+          method: GET
+          cors: true
+          authorizer: authorize
+  
+  allServices:
+    handler: src/lambdas/service/getAll.handler
+    events:
+      - http:
+          path: /api/services/all
+          method: GET
+          cors: true
+          authorizer: authorize
+  
+  updateService:
+    handler: src/lambdas/service/update.handler
+    events:
+      - http:
+          path: /api/services
+          method: PATCH
+          cors: true
+          authorizer: authorize
+      - http:
+          path: /api/services
+          method: PUT
+          cors: true
+          authorizer: authorize
+  
+  deleteService:
+    handler: src/lambdas/service/delete.handler
+    events:
+      - http:
+          path: /api/services
+          method: DELETE
+          cors: true
+          authorizer: authorize
 
 resources:
   - ${file(./resources/dynamodb.yml)}

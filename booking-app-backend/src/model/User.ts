@@ -114,17 +114,15 @@ export default class User {
         return dynamodbMapper.mapDynamoDBItemToUser(result.Item as IDynamoDBItem);
     }
 
-    public toDTO(): IUserAttributes {
-        return {
-            id: this.attributes.id,
-            name: this.attributes.name,
-            email: this.attributes.email,
-            company: this.attributes.company,
-            description: this.attributes.description,
-            hasImage: this.attributes.hasImage,
-            imageKey: this.attributes.imageKey,
-        };
-    }
+    public toDTO = (): IUserAttributes => ({
+        id: this.attributes.id,
+        name: this.attributes.name,
+        email: this.attributes.email,
+        company: this.attributes.company,
+        description: this.attributes.description,
+        hasImage: this.attributes.hasImage,
+        imageKey: this.attributes.imageKey,
+    });
     
     private removeUndefinded(attributes: IUserAttributes) {
         Object.keys(attributes).forEach(key => attributes[key] === undefined && delete attributes[key]);
