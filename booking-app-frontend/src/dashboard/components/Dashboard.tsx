@@ -19,9 +19,12 @@ const Dashboard: FunctionComponent = () => {
 
   return (
     <>
-      <div className="add-service-button-wrapper">
-        <Button className="add-service-button dashboard-page-button" onClick={toggleModal}> Add Service </Button>
-      </div>
+      { !isLoading
+        && (
+        <div className="add-service-button-wrapper">
+          <Button className="add-service-button dashboard-page-button" onClick={toggleModal}> Add Service </Button>
+        </div>
+        )}
       { message && !isLoading && success !== undefined
         && <Flash message={message} success={success} className="normal-alert" />}
       {isLoading && <LoadingSpinner />}
