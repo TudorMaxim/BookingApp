@@ -3,8 +3,8 @@ import authService from './auth.service';
 import imagesService from './images.service';
 import { IProfileState } from '../context/types';
 import { updateFailure, updateRequest, updateSuccess } from '../profile/actions';
-import storage from '../utils/storage';
 import { IAction } from '../context/rootReducer';
+import storage from '../utils/storage';
 
 interface IUpdateRequestBody {
   id: string;
