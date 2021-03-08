@@ -35,6 +35,17 @@ export interface IServiceState {
     offeredBy?: string;
 }
 
+export interface IBookingState {
+    id?: string;
+    userId: string;
+    serviceId: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    duration: number;
+    bookingMatrix: boolean[][];
+}
+
 export interface IDashboardState extends IFlashState {
     services: IServiceState[];
     isLoading: boolean;

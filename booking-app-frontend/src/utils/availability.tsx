@@ -33,6 +33,14 @@ const matrixCopy = (src?: boolean[][]): boolean[][] => {
   return matrix;
 };
 
+const matrixSet = (src: boolean[][], value: boolean, line: number, column: number): boolean[][] => {
+  const matrix = matrixCopy(src);
+  if (line >= 0 && line < hours.length && column >= 0 && column < days.length) {
+    matrix[line][column] = value;
+  }
+  return matrix;
+};
+
 const getAvailability = (matrix?: boolean[][]): string => {
   if (!matrix) {
     return '';
@@ -73,6 +81,7 @@ const availabilityUtils = {
   hours,
   matrixInit,
   matrixCopy,
+  matrixSet,
   getAvailability,
 };
 

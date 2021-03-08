@@ -108,7 +108,7 @@ const ServiceForm: FunctionComponent<ServiceFormProps> = ({
         variant="primary"
         text="SAVE"
         isLoading={isLoading}
-        className="add-service-form-submit"
+        className="add-service-form-submit dashboard-page-button"
       />
     </Form>
   );

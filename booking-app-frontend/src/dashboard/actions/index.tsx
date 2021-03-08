@@ -56,3 +56,16 @@ export const deleteServiceFailure = (message: string): IDashboardAction => ({
   type: DashboardActionTypes.DELETE_SERVICE_FAILURE,
   message,
 });
+
+export const submitBookingRequest = (): IDashboardAction => ({
+  type: DashboardActionTypes.SUBMIT_BOOKING_REQUEST,
+});
+
+export const submitBookingSuccess = (): IDashboardAction => ({
+  type: DashboardActionTypes.SUBMIT_BOOKING_SUCCESS,
+});
+
+export const submitBookingFailure = (message: string): IDashboardAction => ({
+  type: DashboardActionTypes.SUBMIT_BOOKING_FAILURE,
+  message,
+});
