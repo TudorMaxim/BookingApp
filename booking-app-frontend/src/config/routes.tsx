@@ -4,6 +4,8 @@ import Register from '../auth/components/Register';
 import Activate from '../auth/components/Activate';
 import Profile from '../profile/components/Profile';
 import Dashboard from '../dashboard/components/Dashboard';
+import Bookings from '../bookings/components/Boookings';
+import Calendar from '../calendar/components/Calendar';
 
 export interface IRoute {
   path: string;
@@ -17,11 +19,11 @@ const routes: IRoute[] = [{
   isPrivate: true,
 }, {
   path: '/calendar',
-  component: <Profile />,
+  component: <Calendar />,
   isPrivate: true,
 }, {
   path: '/bookings',
-  component: <Profile />,
+  component: <Bookings />,
   isPrivate: true,
 }, {
   path: '/profile',

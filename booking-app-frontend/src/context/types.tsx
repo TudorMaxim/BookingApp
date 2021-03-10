@@ -33,6 +33,7 @@ export interface IServiceState {
     price?: number;
     availabilityMatrix?: boolean[][];
     offeredBy?: string;
+    bookings?: IBookingState[];
 }
 
 export interface IBookingState {
@@ -43,6 +44,7 @@ export interface IBookingState {
     email: string;
     phoneNumber: string;
     duration: number;
+    availability?: string;
     bookingMatrix: boolean[][];
 }
 
@@ -51,8 +53,14 @@ export interface IDashboardState extends IFlashState {
     isLoading: boolean;
 }
 
+export interface IBookingsPageState extends IFlashState {
+    isLoading: boolean;
+    services: IServiceState[]; // all the services offered by a user and all their bookings.
+}
+
 export interface IState {
     auth: IAuthState;
     profile: IProfileState;
     dashboard: IDashboardState;
+    bookingsPage: IBookingsPageState;
 }
