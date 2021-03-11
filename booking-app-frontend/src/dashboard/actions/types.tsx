@@ -1,0 +1,27 @@
+import { ICommonAction } from '../../common/actions/types';
+import { IServiceState } from '../../context/types';
+
+export enum DashboardActionTypes {
+    UPDATE_INPUT = 'UPDATE_INPUT',
+    CHANGE_AVAILABILITY = 'CHANGE_AVAILABILITY',
+    FETCH_SERVICES_REQUEST = 'FETCH_SERVICES_REQUEST',
+    FETCH_SERVICES_SUCCESS = 'FETCH_SERVICES_SUCCESS',
+    FETCH_SERVICES_FAILURE = 'FETCH_SERVICES_FAILURE',
+    ADD_SERVICE_REQUEST = 'ADD_SERVICE_REQUEST',
+    ADD_SERVICE_SUCCESS = 'ADD_SERVICE_SUCCESS',
+    ADD_SERVICE_FAILURE = 'ADD_SERVICE_FAILURE',
+    UPDATE_SERVICE_REQUEST = 'UPDATE_SERVICE_REQUEST',
+    UPDATE_SERVICE_SUCCESS = 'UPDATE_SERVICE_SUCCESS',
+    UPDATE_SERVICE_FAILURE = 'UPDATE_SERVICE_FAILURE',
+    DELETE_SERVICE_REQUEST = 'DELETE_SERVICE_REQUEST',
+    DELETE_SERVICE_SUCCESS = 'DELETE_SERVICE_SUCCESS',
+    DELETE_SERVICE_FAILURE = 'DELETE_SERVICE_FAILURE'
+}
+
+export interface DashboardAction {
+    type: DashboardActionTypes,
+    payload?: IServiceState | IServiceState[],
+    message?: string,
+}
+
+export type IDashboardAction = DashboardAction | ICommonAction;

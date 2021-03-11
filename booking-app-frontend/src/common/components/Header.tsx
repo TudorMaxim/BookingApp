@@ -1,9 +1,9 @@
 import { FunctionComponent } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useStore } from '../context/store';
-import BookingAppLogoSmall from '../assets/BookingAppLogoSmall.png';
-import './Header.sass';
+import { useStore } from '../../context/store';
+import BookingAppLogoSmall from '../../assets/BookingAppLogoSmall.png';
+import '../styles/Header.sass';
 
 const PublicLinks: FunctionComponent = () => (
   <Navbar.Collapse id="header-navbar">
@@ -17,7 +17,7 @@ const PublicLinks: FunctionComponent = () => (
 const PrivateLinks: FunctionComponent = () => (
   <Navbar.Collapse id="header-navbar">
     <Nav className="ml-auto">
-      <Link className="nav-link" to="/dashboard"> Dashboard </Link>
+      <Link className="nav-link" to="/dashboard"> Services </Link>
       <Link className="nav-link" to="/bookings"> Bookings </Link>
       <Link className="nav-link" to="/calendar"> Calendar </Link>
       <Link className="nav-link" to="/profile"> Profile </Link>

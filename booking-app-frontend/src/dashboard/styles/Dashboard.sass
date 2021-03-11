@@ -1,0 +1,32 @@
+$button-colour: #91a0ff
+$button-colour-focus: #8797ff
+
+#services-list
+    list-style-type: none
+    padding: 0
+
+.services-list-item
+    margin: 25px 0
+
+.add-service-button-wrapper
+    margin-top: 25px
+    position: relative
+    height: 38px
+
+button.add-service-button
+    position: absolute
+    right: 0
+
+button.dashboard-page-button
+    background-color: $button-colour !important
+    border-color: $button-colour !important
+
+button.dashboard-page-button:hover, .dashboard-page-button:focus
+    background-color: $button-colour-focus !important
+
+button.dashboard-page-button:focus
+    box-shadow: 0 0 0 0 0.2rem
+
+.no-services
+    margin-top: 100px
+    text-align: center

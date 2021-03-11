@@ -1,4 +1,5 @@
-import { IProfileState } from '../../context/types';
+import { ICommonAction, IInputPayload } from '../../common/actions/types';
+import { IFlashState, IProfileState } from '../../context/types';
 
 export enum ProfileActionTypes {
     FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS',
@@ -10,15 +11,12 @@ export enum ProfileActionTypes {
     CLEAR_PROFILE = 'CLEAR_PROFILE'
 }
 
-export interface IInputPayload {
-    key: string;
-    value: string;
-}
-
-export interface IProfileAction {
+interface ProfileAction {
     type: ProfileActionTypes;
-    payload?: IProfileState;
+    payload?: IProfileState | IFlashState;
     inputPayload?: IInputPayload;
     image?: File;
     message?: string;
 }
+
+export type IProfileAction = ProfileAction | ICommonAction;

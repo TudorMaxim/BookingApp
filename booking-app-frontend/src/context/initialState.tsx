@@ -15,6 +15,10 @@ const initialState: IState = {
     company: '',
     description: '',
   },
+  dashboard: {
+    services: [],
+    isLoading: false,
+  },
 };
 
 export default initialState;

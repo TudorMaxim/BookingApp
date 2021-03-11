@@ -1,0 +1,58 @@
+$card-header-colour: #91a0ff
+$card-shadow-colour: rgba(167, 147, 199, 0.2)
+
+.card 
+    box-shadow: 0 4px 8px 0 $card-shadow-colour, 0 6px 20px 0 $card-shadow-colour;
+
+.card-header
+    background-color: $card-header-colour !important
+
+.card-title
+    color: white
+
+.card-details-grid
+    display: grid
+    grid-template-columns: repeat(4, minmax(0, 1fr))
+
+p.card-text
+    color: grey
+
+p.card-details-item
+    margin: 0
+    font-weight: bold
+
+p.card-details-item > span::before
+    content: "\A"
+    white-space: pre
+
+p.card-details-item > span
+    color: grey
+    font-weight: normal
+    text-align: center !important
+
+
+p.card-details-item:nth-child(2), p.card-details-item:nth-child(3)
+    text-align: center
+
+p.card-details-item:nth-child(4)
+    text-align: right
+
+.card-title svg
+    margin-left: 15px
+    width: 1.5rem
+    height: 1.5rem
+
+.card-title svg:hover
+    cursor: pointer
+    color: #ebebeb
+
+.card-footer
+    display: grid
+    grid-template-columns: 120px auto
+
+p.card-footer-text
+    text-align: right
+    margin: 10px 0
+
+span.card-footer-company
+    font-weight: bold

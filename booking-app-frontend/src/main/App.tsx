@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent, useEffect, useRef } from 'react';
 import {
   BrowserRouter, Route, Switch, Redirect,
 } from 'react-router-dom';
@@ -6,8 +6,9 @@ import { useStore } from '../context/store';
 import { loginSuccess } from '../auth/actions';
 import { fetchProfileSuccess } from '../profile/actions';
 import routes, { IRoute } from '../config/routes';
-import Header from '../common/Header';
+import Header from '../common/components/Header';
 import storage from '../utils/storage';
+import dashboardService from '../service/dashboard.service';
 
 const AppRoute: FunctionComponent<IRoute> = ({ path, component, isPrivate }) => {
   const { state } = useStore();
@@ -28,6 +29,7 @@ const AppRoute: FunctionComponent<IRoute> = ({ path, component, isPrivate }) => 
 
 const App: FunctionComponent = () => {
   const { state, dispatch } = useStore();
+  const initialMount = useRef(true);
   useEffect(() => {
     const token = storage.getToken();
     if (token && !state.auth.isAuthenticated) {
@@ -36,6 +38,12 @@ const App: FunctionComponent = () => {
     const profile = storage.getProfile();
     if (profile && state.profile.email !== profile.email) {
       dispatch(fetchProfileSuccess(profile));
+    }
+  });
+  useEffect(() => {
+    if (initialMount.current) {
+      initialMount.current = false;
+      dashboardService.fetchServices(dispatch);
     }
   });
   return (

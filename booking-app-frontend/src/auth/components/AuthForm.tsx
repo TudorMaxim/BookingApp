@@ -8,9 +8,9 @@ import { IAuthCredentials } from '../actions/types';
 import FormInput, { useFormInput } from './FormInput';
 import { useStore } from '../../context/store';
 import { usernameValidator, emailValidator, passwordValidator } from '../validators';
-import Flash from '../../common/Flash';
-import './AuthForm.sass';
-import StatefulButton from '../../common/StatefulButton';
+import Flash from '../../common/components/Flash';
+import StatefulButton from '../../common/components/StatefulButton';
+import '../styles/AuthForm.sass';
 
 export enum AuthFormTypes {
     LOGIN = 'LOGIN',

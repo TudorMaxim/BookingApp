@@ -1,3 +1,4 @@
+import { CommonActionTypes } from '../../common/actions/types';
 import { IProfileState } from '../../context/types';
 import { IProfileAction, ProfileActionTypes } from '../actions/types';
 
@@ -45,6 +46,12 @@ const profileReducer = (state: IProfileState, action: IProfileAction): IProfileS
         isLoading: false,
         message: undefined,
         success: undefined,
+      };
+    case CommonActionTypes.SET_FLASH:
+      return {
+        ...state,
+        message: action.payload?.message,
+        success: action.payload?.success,
       };
     default:
       return state;

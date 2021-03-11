@@ -3,6 +3,7 @@ import Login from '../auth/components/Login';
 import Register from '../auth/components/Register';
 import Activate from '../auth/components/Activate';
 import Profile from '../profile/components/Profile';
+import Dashboard from '../dashboard/components/Dashboard';
 
 export interface IRoute {
   path: string;
@@ -12,7 +13,7 @@ export interface IRoute {
 
 const routes: IRoute[] = [{
   path: '/dashboard',
-  component: <Profile />,
+  component: <Dashboard />,
   isPrivate: true,
 }, {
   path: '/calendar',
@@ -40,7 +41,7 @@ const routes: IRoute[] = [{
   isPrivate: false,
 }, {
   path: '/',
-  component: <Profile />,
+  component: <Dashboard />,
   isPrivate: true,
 },
 ];
