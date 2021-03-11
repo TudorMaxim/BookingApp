@@ -6,11 +6,10 @@ import { IBookingState } from '../../context/types';
 interface BookingFormInfoProps {
     booking: IBookingState;
     setBooking: Dispatch<SetStateAction<IBookingState>>;
-    nextPage: () => void;
 
 }
 const BookingFormInfo: FunctionComponent<BookingFormInfoProps> = ({
-  booking, setBooking, nextPage,
+  booking, setBooking,
 }) => (
   <>
     <p className="add-service-form-title"> Personal Details </p>
@@ -20,6 +19,8 @@ const BookingFormInfo: FunctionComponent<BookingFormInfoProps> = ({
           label="Name"
           type="text"
           value={booking.name}
+          pattern="^[a-zA-Z\s]*$"
+          validationMessage="Your name must contain only letters!"
           onChange={(e) => setBooking({
             ...booking,
             name: e.target.value,
@@ -29,6 +30,8 @@ const BookingFormInfo: FunctionComponent<BookingFormInfoProps> = ({
           label="Email"
           type="text"
           value={booking.email}
+          pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+          validationMessage="Invalid email address"
           onChange={(e) => setBooking({
             ...booking,
             email: e.target.value,
@@ -39,6 +42,7 @@ const BookingFormInfo: FunctionComponent<BookingFormInfoProps> = ({
         <FormInput
           label="Phone Number"
           type="text"
+          pattern="^\+4[0-9]{10}"
           value={booking.phoneNumber}
           onChange={(e) => setBooking({
             ...booking,
@@ -47,7 +51,7 @@ const BookingFormInfo: FunctionComponent<BookingFormInfoProps> = ({
         />
         <Button
           className="dashboard-page-button booking-form-button booking-form-element"
-          onClick={() => nextPage()}
+          type="submit"
         >
           NEXT
         </Button>

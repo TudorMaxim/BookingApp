@@ -39,7 +39,7 @@ const Bookings: FunctionComponent = () => {
           </tr>
         </thead>
         <tbody>
-          {bookings && bookings.map((booking, index) => (
+          {bookings && bookings.map((booking) => (
             <tr key={booking.id}>
               <td>{booking.name}</td>
               <td>{booking.email}</td>

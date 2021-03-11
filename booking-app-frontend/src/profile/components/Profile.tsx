@@ -52,6 +52,8 @@ const Profile: FunctionComponent = () => {
             type="text"
             label="Name"
             value={name}
+            pattern="^[a-zA-Z\s]*$"
+            validationMessage="Your name must contain only letters!"
             onChange={(e) => dispatch(updateInput('name', e.target.value))}
           />
           <FormInput

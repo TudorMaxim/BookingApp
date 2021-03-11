@@ -6,8 +6,8 @@ import BookingFormAvailability from './BookingFormAvailability';
 import BookingFormSuccess from './BookingFormSuccess';
 import { useStore } from '../../context/store';
 import availabilityUtils from '../../utils/availability';
-import '../styles/BookingForm.sass';
 import dashboardService from '../../service/dashboard.service';
+import '../styles/BookingForm.sass';
 
 interface BookingFormProps {
     service: IServiceState;
@@ -30,17 +30,29 @@ const BookingForm: FunctionComponent<BookingFormProps> = ({ service, toggleModal
     phoneNumber: '',
   });
 
+  const availabilitySelected = (): boolean => {
+    const { bookingMatrix } = booking;
+    for (let i = 0; i < bookingMatrix.length; i += 1) {
+      for (let j = 0; j < bookingMatrix[i].length; j += 1) {
+        if (bookingMatrix[i][j]) return true;
+      }
+    }
+    return false;
+  };
+
   const handleSubmit = (e: FormEvent): void => {
     e.preventDefault();
-    console.log(booking);
-    dashboardService.submitBooking(booking, dispatch).then(() => nextPage());
+    if (page === 0) {
+      nextPage();
+    } else if (page === 1 && availabilitySelected()) {
+      dashboardService.submitBooking(booking, dispatch).then(() => nextPage());
+    }
   };
 
   const pages = [
     <BookingFormInfo
       booking={booking}
       setBooking={setBooking}
-      nextPage={nextPage}
     />,
     <BookingFormAvailability
       service={service}
