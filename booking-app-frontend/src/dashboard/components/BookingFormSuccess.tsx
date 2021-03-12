@@ -4,13 +4,12 @@ import { IBookingState } from '../../context/types';
 import BookingRequestSent from '../../assets/BookingRequestSent.png';
 
 interface BookingSuccessProps {
-  booking: IBookingState;
   toggleModal: () => void;
 }
 
 const BookingFormSuccess: FunctionComponent<BookingSuccessProps> = ({ toggleModal }) => {
   useEffect(() => {
-    const timeout = setTimeout(() => console.log('Success'), 5000);
+    const timeout = setTimeout(() => toggleModal(), 5000);
     return () => clearTimeout(timeout);
   });
   return (

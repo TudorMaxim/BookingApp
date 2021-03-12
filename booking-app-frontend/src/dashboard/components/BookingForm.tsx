@@ -60,10 +60,7 @@ const BookingForm: FunctionComponent<BookingFormProps> = ({ service, toggleModal
       setBooking={setBooking}
       previousPage={previousPage}
     />,
-    <BookingFormSuccess
-      booking={booking}
-      toggleModal={toggleModal}
-    />,
+    <BookingFormSuccess toggleModal={toggleModal} />,
   ];
 
   return (

@@ -23,6 +23,7 @@ const initialState: IState = {
   bookingsPage: {
     isLoading: false,
     services: [{
+      id: 's1',
       name: 'Service 1',
       bookings: [{
         id: 'b1',
@@ -46,6 +47,7 @@ const initialState: IState = {
         bookingMatrix: [],
       }],
     }, {
+      id: 's2',
       name: 'Service 2',
       bookings: [{
         id: 'b3',

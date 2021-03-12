@@ -1,7 +1,9 @@
 import { FunctionComponent, SetStateAction, Dispatch } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
+import PhoneInput from 'react-phone-input-2';
 import FormInput from '../../common/components/FormInput';
 import { IBookingState } from '../../context/types';
+import 'react-phone-input-2/lib/style.css';
 
 interface BookingFormInfoProps {
     booking: IBookingState;
@@ -39,16 +41,17 @@ const BookingFormInfo: FunctionComponent<BookingFormInfoProps> = ({
         />
       </div>
       <div className="booking-form-column">
-        <FormInput
-          label="Phone Number"
-          type="text"
-          pattern="^\+4[0-9]{10}"
-          value={booking.phoneNumber}
-          onChange={(e) => setBooking({
-            ...booking,
-            phoneNumber: e.target.value,
-          })}
-        />
+        <Form.Group className="phone-group">
+          <Form.Label> Phone Number </Form.Label>
+          <PhoneInput
+            country="ro"
+            value={booking.phoneNumber}
+            onChange={(phoneNumber) => setBooking({
+              ...booking,
+              phoneNumber: `+${phoneNumber}`,
+            })}
+          />
+        </Form.Group>
         <Button
           className="dashboard-page-button booking-form-button booking-form-element"
           type="submit"
