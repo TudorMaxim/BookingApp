@@ -40,6 +40,7 @@ export interface IBookingState {
     id?: string;
     userId: string;
     serviceId: string;
+    serviceName?: string;
     name: string;
     email: string;
     phoneNumber: string;
@@ -58,9 +59,15 @@ export interface IBookingsPageState extends IFlashState {
     services: IServiceState[]; // all the services offered by a user and all their bookings.
 }
 
+export interface ICalendarState extends IFlashState {
+    isLoading: boolean;
+    bookings: IBookingState[];
+}
+
 export interface IState {
     auth: IAuthState;
     profile: IProfileState;
     dashboard: IDashboardState;
     bookingsPage: IBookingsPageState;
+    calendar: ICalendarState;
 }

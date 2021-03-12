@@ -2,7 +2,9 @@ import { FunctionComponent } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../context/store';
+import imagesService from '../../service/images.service';
 import BookingAppLogoSmall from '../../assets/BookingAppLogoSmall.png';
+import DefaultProfileImage from '../../assets/DefaultProfileImage.png';
 import '../styles/Header.sass';
 
 const PublicLinks: FunctionComponent = () => (
@@ -14,16 +16,27 @@ const PublicLinks: FunctionComponent = () => (
   </Navbar.Collapse>
 );
 
-const PrivateLinks: FunctionComponent = () => (
-  <Navbar.Collapse id="header-navbar">
-    <Nav className="ml-auto">
-      <Link className="nav-link" to="/dashboard"> Services </Link>
-      <Link className="nav-link" to="/bookings"> Bookings </Link>
-      <Link className="nav-link" to="/calendar"> Calendar </Link>
-      <Link className="nav-link" to="/profile"> Profile </Link>
-    </Nav>
-  </Navbar.Collapse>
-);
+const PrivateLinks: FunctionComponent = () => {
+  const { state } = useStore();
+  const { hasImage, imageKey, name } = state.profile;
+  let imageSrc = DefaultProfileImage;
+  if (hasImage && imageKey) {
+    imageSrc = imagesService.getURL(imageKey);
+  }
+  return (
+    <Navbar.Collapse id="header-navbar">
+      <Nav className="ml-auto">
+        <Link className="nav-link" to="/dashboard"> Services </Link>
+        <Link className="nav-link" to="/bookings"> Bookings </Link>
+        <Link className="nav-link" to="/calendar"> Calendar </Link>
+        <Link className="nav-link" to="/profile">
+          {name.split(' ')[0]}
+          <img className="user-profile-image-small" src={imageSrc} alt="Profile" />
+        </Link>
+      </Nav>
+    </Navbar.Collapse>
+  );
+};
 
 const Header: FunctionComponent = () => {
   const { state } = useStore();

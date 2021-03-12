@@ -1,6 +1,8 @@
-const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+import { IBookingState } from '../context/types';
 
-const hours = Array.from(Array(12).keys()).map((hour) => {
+export const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+export const hours = Array.from(Array(12).keys()).map((hour) => {
   let mapped = `${hour + 7}:00`;
   if (hour < 3) {
     mapped = `0${mapped}`;
@@ -76,6 +78,26 @@ const getAvailability = (matrix?: boolean[][]): string => {
   return `${availableDays}, ${availableHours}GMT`;
 };
 
+const matrixMerge = (a: boolean[][], b: boolean[][]): boolean[][] => {
+  const res = matrixInit();
+  for (let i = 0; i < a.length; i += 1) {
+    for (let j = 0; j < a[i].length; j += 1) {
+      res[i][j] = a[i][j] || b[i][j];
+    }
+  }
+  return res;
+};
+
+const getBookingsMatrix = (bookings: IBookingState[]): boolean[][] => {
+  let matrix = matrixInit();
+  bookings.forEach(({ bookingMatrix }) => {
+    if (bookingMatrix) {
+      matrix = matrixMerge(matrix, bookingMatrix);
+    }
+  });
+  return matrix;
+};
+
 const availabilityUtils = {
   days,
   hours,
@@ -83,6 +105,7 @@ const availabilityUtils = {
   matrixCopy,
   matrixSet,
   getAvailability,
+  getBookingsMatrix,
 };
 
 export default availabilityUtils;

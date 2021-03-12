@@ -36,6 +36,10 @@ const BookingFormAvailability: FunctionComponent<BookingFormAvailabilityProps> =
     return false;
   };
 
+  const rows = availabilityUtils.days.map((day, index) => (
+    <th key={index}>{day}</th>
+  ));
+
   return (
     <>
       <div className="booking-form-grid">
@@ -53,9 +57,7 @@ const BookingFormAvailability: FunctionComponent<BookingFormAvailabilityProps> =
           <thead>
             <tr id="availability-hreader">
               <th>{' '}</th>
-              {availabilityUtils.days.map((day) => (
-                <th key={day}>{day}</th>
-              ))}
+              {rows}
             </tr>
           </thead>
           <tbody>

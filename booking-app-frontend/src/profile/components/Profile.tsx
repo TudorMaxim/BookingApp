@@ -69,7 +69,13 @@ const Profile: FunctionComponent = () => {
             value={description || ''}
             onChange={(e) => dispatch(updateInput('description', e.target.value))}
           />
-          <StatefulButton type="submit" variant="primary" text="SAVE" isLoading={isLoading} />
+          <StatefulButton
+            type="submit"
+            variant="primary"
+            text="SAVE"
+            className="dashboard-page-button"
+            isLoading={isLoading}
+          />
           <StatefulButton
             isLoading={false}
             text="LOG OUT"

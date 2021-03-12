@@ -1,4 +1,4 @@
-import availabilityUtils from '../utils/availability';
+import calendarUtils from '../utils/calendar';
 import { IState } from './types';
 
 const initialState: IState = {
@@ -20,7 +20,7 @@ const initialState: IState = {
     services: [],
     isLoading: false,
   },
-  bookingsPage: {
+  bookingsPage: { // TODO: remove mock data and use data fetched from the server.
     isLoading: false,
     services: [{
       id: 's1',
@@ -70,6 +70,32 @@ const initialState: IState = {
         availability: 'Mon-Wen 10:00-16:00GMT',
         bookingMatrix: [],
       }],
+    }],
+  },
+  calendar: { // TODO: remove mock data and use data fetched from the server.
+    isLoading: false,
+    bookings: [{
+      id: 'b3',
+      userId: 'u1',
+      serviceId: 's2',
+      serviceName: 'First Service',
+      name: 'Demo User 2',
+      email: 'demo@gmail.com',
+      phoneNumber: '+40740404040',
+      duration: 60,
+      availability: 'Mon-Wen 10:00-16:00GMT',
+      bookingMatrix: calendarUtils.generateRandomBooking(),
+    }, {
+      id: 'b4',
+      userId: 'u1',
+      serviceId: 's2',
+      serviceName: 'Second Service',
+      name: 'Demo User 2',
+      email: 'demo@gmail.com',
+      phoneNumber: '+40740404040',
+      duration: 120,
+      availability: 'Mon-Wen 10:00-16:00GMT',
+      bookingMatrix: calendarUtils.generateRandomBooking(),
     }],
   },
 };
