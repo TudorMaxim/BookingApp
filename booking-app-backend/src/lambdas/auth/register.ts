@@ -1,7 +1,7 @@
 import * as middy from 'middy';
 import { cors } from 'middy/middlewares';
 import { APIGatewayProxyHandler } from "aws-lambda";
-import authService from '../../service/AuthService';
+import authController from '../../controller/AuthController';
 import emailSender from '../../utils/EmailSender';
 import apiResponse from '../../utils/APIResponse';
 
@@ -13,7 +13,7 @@ const register: APIGatewayProxyHandler = async event => {
     }
     const { name, email, password } = JSON.parse(event.body);
     try {
-        const user = await authService.register(name, email, password);
+        const user = await authController.register(name, email, password);
         await emailSender.sendTo(user);
         return apiResponse.success({
             body: { message: 'Account successfully created!' }
