@@ -1,7 +1,8 @@
+import { CommonActionTypes, ICommonAction } from '../../common/actions/types';
 import { IAuthState } from '../../context/types';
 import { IAuthAction, AuthActionTypes } from '../actions/types';
 
-const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
+const authReducer = (state: IAuthState, action: IAuthAction | ICommonAction): IAuthState => {
   switch (action.type) {
     case AuthActionTypes.LOGIN_REQUEST:
     case AuthActionTypes.REGISTER_REQUEST:
@@ -62,6 +63,12 @@ const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
         isActivated: false,
         message: action.message,
         success: false,
+      };
+    case CommonActionTypes.SET_FLASH:
+      return {
+        ...state,
+        message: action.payload?.message,
+        success: action.payload?.success,
       };
     default:
       return state;

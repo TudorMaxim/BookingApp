@@ -1,25 +1,43 @@
 Resources:
-  usersTable:
+  dynamodbTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Retain
     Properties:
-      TableName: ${self:provider.environment.USERS_TABLE}
+      TableName: ${self:provider.environment.DYNAMODB_TABLE}
       AttributeDefinitions:
-        - AttributeName: "id"
+        - AttributeName: "PK"
+          AttributeType: "S"
+        - AttributeName: "SK"
           AttributeType: "S"
         - AttributeName: "email"
           AttributeType: "S"
       KeySchema:
-        - AttributeName: "id"
+        - AttributeName: "PK"
           KeyType: "HASH"
+        - AttributeName: "SK"
+          KeyType: "RANGE"
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
+  
       GlobalSecondaryIndexes:
         - IndexName: ${self:provider.environment.USERS_EMAIL_INDEX}
           KeySchema:
             - AttributeName: "email"
               KeyType: "HASH"
+            - AttributeName: "PK"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+        - IndexName: ${self:provider.environment.BOOKING_USERS_INDEX}
+          KeySchema:
+            - AttributeName: "SK"
+              KeyType: "HASH"
+            - AttributeName: "PK"
+              KeyType: "RANGE"
           Projection:
             ProjectionType: ALL
           ProvisionedThroughput:

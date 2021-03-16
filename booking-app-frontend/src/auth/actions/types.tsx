@@ -1,4 +1,5 @@
-import { IProfileState } from '../../context/types';
+import { ICommonAction } from '../../common/actions/types';
+import { IProfileState, IFlashState } from '../../context/types';
 
 export enum AuthActionTypes {
     LOGIN_REQUEST = 'LOGIN_REQUEST',
@@ -21,9 +22,11 @@ export interface IAuthCredentials {
     password: string;
 }
 
-export interface IAuthAction {
+interface AuthAction {
     type: AuthActionTypes;
-    payload?: IAuthCredentials | IProfileState | string;
+    payload?: IAuthCredentials | IProfileState | IFlashState | string;
     message?: string;
     token?: string;
 }
+
+export type IAuthAction = AuthAction | ICommonAction;
