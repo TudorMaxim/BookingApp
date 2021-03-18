@@ -1,5 +1,5 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
-import middy = require("middy");
+import * as middy from 'middy';
 import { cors } from "middy/middlewares";
 import User from '../../model/User';
 import apiResponse from "../../utils/APIResponse";

@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { v4 as uuid } from 'uuid';
+import dynamodbMapper, { EntityType, IDynamoDBItem } from '../utils/DynamoDBMapper';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -54,19 +55,23 @@ export default class User {
     
     private async save(): Promise<void> {
         await dynamodb.put({
-            TableName: process.env.USERS_TABLE!,
-            Item: this.attributes
+            TableName: process.env.DYNAMODB_TABLE!,
+            Item: dynamodbMapper.mapEntityToDynamoDBItem(this),
         }).promise();
     }
 
     public static async activateAccount(id: string): Promise<void> {
         await dynamodb.update({
-            TableName: process.env.USERS_TABLE!,
-            Key: { id },
-            ConditionExpression: "id = :id",
+            TableName: process.env.DYNAMODB_TABLE!,
+            Key: {
+                PK: dynamodbMapper.getDynamoDBKey(id, EntityType.USER),
+                SK: dynamodbMapper.getDynamoDBKey(id, EntityType.USER),
+            },
+            ConditionExpression: "PK = :PK and SK = :SK",
             UpdateExpression: "set activated = :activated, updatedAt = :updatedAt",
             ExpressionAttributeValues: {
-                ":id": id,
+                ":PK": dynamodbMapper.getDynamoDBKey(id, EntityType.USER),
+                ":SK": dynamodbMapper.getDynamoDBKey(id, EntityType.USER),
                 ":activated": true,
                 ":updatedAt": new Date(Date.now()).toISOString()
             },
@@ -78,41 +83,46 @@ export default class User {
 
     public static async findByEmail(email: string): Promise<User | undefined> {
         const result = await dynamodb.query({
-            TableName: process.env.USERS_TABLE!,
+            TableName: process.env.DYNAMODB_TABLE!,
             IndexName: process.env.USERS_EMAIL_INDEX!,
-            KeyConditionExpression: "email = :email",
+            KeyConditionExpression: "email = :email and begins_with(#PK, :type)",
             ExpressionAttributeValues: {
-                ":email": email
-            }
+                ":email": email,
+                ":type": EntityType.USER,
+            },
+            ExpressionAttributeNames: {
+                "#PK": "PK",
+            },
         }).promise();
         if (!result.Items || !result.Count || result.Count === 0) {
             return undefined;
         }
-        return new User(result.Items[0]);
+        return dynamodbMapper.mapDynamoDBItemToUser(result.Items[0] as IDynamoDBItem);
     }
 
     public static async findById(id: string): Promise<User> {
         const result = await dynamodb.get({
-            TableName: process.env.USERS_TABLE!,
-            Key: { id }
+            TableName: process.env.DYNAMODB_TABLE!,
+            Key: {
+                PK: dynamodbMapper.getDynamoDBKey(id, EntityType.USER),
+                SK: dynamodbMapper.getDynamoDBKey(id, EntityType.USER),
+            }
         }).promise();
         if (!result.Item) {
             throw new Error(`Error: User with id ${id} does not exist!`);
         }
-        return new User(result.Item);
+        return dynamodbMapper.mapDynamoDBItemToUser(result.Item as IDynamoDBItem);
     }
 
-    public toDTO(): IUserAttributes {
-        return {
-            id: this.attributes.id,
-            name: this.attributes.name,
-            email: this.attributes.email,
-            company: this.attributes.company,
-            description: this.attributes.description,
-            hasImage: this.attributes.hasImage,
-            imageKey: this.attributes.imageKey,
-        };
-    }
+    public toDTO = (): IUserAttributes => ({
+        id: this.attributes.id,
+        name: this.attributes.name,
+        email: this.attributes.email,
+        company: this.attributes.company,
+        description: this.attributes.description,
+        hasImage: this.attributes.hasImage,
+        imageKey: this.attributes.imageKey,
+    });
     
     private removeUndefinded(attributes: IUserAttributes) {
         Object.keys(attributes).forEach(key => attributes[key] === undefined && delete attributes[key]);

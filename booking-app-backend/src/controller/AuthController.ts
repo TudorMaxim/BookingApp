@@ -6,7 +6,7 @@ interface IDecodedToken {
     email: string;
 }
 
-class AuthService {
+class AuthController {
     
     public async register(name: string, email: string, password: string): Promise<User> {
         this.validateName(name);
@@ -78,5 +78,5 @@ class AuthService {
     }
 }
 
-const authService = new AuthService();
-export default authService;
+const authController = new AuthController();
+export default authController;

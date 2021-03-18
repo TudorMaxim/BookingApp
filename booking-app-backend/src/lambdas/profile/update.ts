@@ -1,7 +1,7 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import * as middy from 'middy';
 import { cors } from 'middy/middlewares';
-import userService from '../../service/UserService';
+import userController from '../../controller/UserController';
 import apiResponse from "../../utils/APIResponse";
 
 interface IBody {
@@ -35,10 +35,10 @@ const update: APIGatewayProxyHandler = async event => {
     try {
         const body = JSON.parse(event.body);
         validate(body);
-        const user = await userService.update(body);
+        const user = await userController.update(body);
         let imageUploadURL: string | undefined;
         if (user.attributes.hasImage && body.mimeType) {
-            imageUploadURL = userService.getSignedUrl(body.id, body.mimeType)
+            imageUploadURL = userController.getSignedUrl(body.id, body.mimeType)
         }
         return apiResponse.success({
             body: {
