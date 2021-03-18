@@ -124,6 +124,25 @@ functions:
           method: DELETE
           cors: true
           authorizer: authorize
+  
+  createBooking:
+    handler: src/lambdas/booking/create.handler
+    events:
+      - http:
+          path: /api/bookings
+          method: POST
+          cors: true
+          authorizer: authorize
+
+  getBookings:
+    handler: src/lambdas/booking/index.handler
+    events:
+      - http:
+          path: /api/bookings
+          method: GET
+          cors: true
+          authorizer: authorize
+  
 
 resources:
   - ${file(./resources/dynamodb.yml)}
