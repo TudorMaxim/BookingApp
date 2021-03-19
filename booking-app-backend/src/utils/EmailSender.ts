@@ -12,8 +12,15 @@ interface IEmailData {
 class EmailSender {
     private ses = new AWS.SES();
 
-    public async sendTo(user: User): Promise<void> {
+    public async sendActivationEmailTo(user: User): Promise<void> {
         const data = this.registrationEmailFor(user);
+        const params = this.buildParams(data);
+        await this.ses.sendEmail(params).promise();
+    }
+
+    public async sendConfirmationEmailTo(email: string | undefined): Promise<void> {
+        if (!email) return;
+        const data = this.confirmationEmailFor(email);
         const params = this.buildParams(data);
         await this.ses.sendEmail(params).promise();
     }
@@ -27,6 +34,18 @@ class EmailSender {
             subject: 'Activate your account!',
             htmlBody: `<h1> Welcome to the Booking App! </h1> 
                     <p> Please follow <a href="${registrationLink}"> this link </a> to activate your account. </p>`
+        }
+    }
+
+    private confirmationEmailFor(email: string): IEmailData {
+        const sender = process.env.EMAIL_SENDER || '';
+        const calendarLink = `${process.env.FRONTEND_HOST}/calendar`;
+        return {
+            sender,
+            receiver: email,
+            subject: 'Your booking is confirmed!',
+            htmlBody: `<h3> Congratulations!</h3>
+                <p> We received your booking. Please check your calendar <a href="${calendarLink}"> here </a>.</p>`
         }
     }
 
