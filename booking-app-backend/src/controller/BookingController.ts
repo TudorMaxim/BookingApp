@@ -2,6 +2,7 @@ import * as dateFns from 'date-fns';
 import typeChecks from '../utils/TypeChecks';
 import User from '../model/User';
 import Booking, { IBookingAttributes } from '../model/Booking';
+import emailSender from '../utils/EmailSender';
 
 class BookingController {
 
@@ -38,6 +39,7 @@ class BookingController {
             availability,
             bookingMatrix,
         });
+        await emailSender.sendConfirmationEmailTo(body.email);
         return booking;
     };
 
@@ -66,15 +68,19 @@ class BookingController {
 
     private validateAttributes = (body: IBookingAttributes): void => {
         const {
-            userName, serviceName, duration, phone, bookingMatrix, availability,
+            userName, serviceName, email, duration, phone, bookingMatrix, availability,
         } = body;
+        const phoneRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!userName || !typeChecks.isString(userName) || userName.length < 3) {
             throw new Error('Error: userName is required and it must have at least 3 characters');
         }
         if (!serviceName || !typeChecks.isString(serviceName) || serviceName.length < 3) {
             throw new Error('Error: serviceName is required and it must have at least 3 characters');
         }
-        let phoneRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+        if (!email || !typeChecks.isString(email) || !emailRegex.test(email)) {
+            throw new Error('Error: please provide your email address');
+        }
         if (!phone || !typeChecks.isString(phone) || !phoneRegex.test(phone)) {
             throw new Error('Error: Invalid phone number');
         }

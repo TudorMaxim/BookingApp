@@ -14,7 +14,7 @@ const register: APIGatewayProxyHandler = async event => {
     const { name, email, password } = JSON.parse(event.body);
     try {
         const user = await authController.register(name, email, password);
-        await emailSender.sendTo(user);
+        await emailSender.sendActivationEmailTo(user);
         return apiResponse.success({
             body: { message: 'Account successfully created!' }
         });
