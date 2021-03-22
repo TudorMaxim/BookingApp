@@ -6,7 +6,8 @@ import '../styles/Calendar.sass';
 
 const Calendar: FunctionComponent = () => {
   const [view, setView] = useState(CalendarViewTypes.WEEK);
-  const [currentDate, setCurrentDate] = useState(new Date(Date.now()));
+  const [currentDate, setCurrentDate] = useState(new Date());
+
   return (
     <div className="bookings-calendar">
       <CalendarHeader

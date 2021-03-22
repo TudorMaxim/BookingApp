@@ -6,7 +6,7 @@ import BookingFormAvailability from './BookingFormAvailability';
 import BookingFormSuccess from './BookingFormSuccess';
 import { useStore } from '../../context/store';
 import availabilityUtils from '../../utils/availability';
-import dashboardService from '../../service/dashboard.service';
+import bookingService from '../../service/booking.service';
 import '../styles/BookingForm.sass';
 
 interface BookingFormProps {
@@ -23,11 +23,13 @@ const BookingForm: FunctionComponent<BookingFormProps> = ({ service, toggleModal
   const [booking, setBooking] = useState<IBookingState>({
     serviceId: service.id as string,
     userId: state.profile.id as string,
-    name: state.profile.name as string,
+    userName: state.profile.name as string,
+    serviceName: service.name as string,
     email: state.profile.email as string,
     duration: service.duration as number,
+    availability: service.availability as string,
     bookingMatrix: availabilityUtils.matrixInit(),
-    phoneNumber: '',
+    phone: '',
   });
 
   const availabilitySelected = (): boolean => {
@@ -45,7 +47,7 @@ const BookingForm: FunctionComponent<BookingFormProps> = ({ service, toggleModal
     if (page === 0) {
       nextPage();
     } else if (page === 1 && availabilitySelected()) {
-      dashboardService.submitBooking(booking, dispatch).then(() => nextPage());
+      bookingService.create(booking, dispatch).then(() => nextPage());
     }
   };
 

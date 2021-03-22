@@ -37,7 +37,7 @@ const getWeekDay = (currentDate: Date, date: Date): WeeklyCell => {
   }
   weekDay = `${weekDay}${date.getDate()}`;
   let current: boolean | undefined;
-  if (dateFns.isSameDay(date, new Date(Date.now()))) {
+  if (dateFns.isSameDay(date, new Date())) {
     current = true;
   }
   return {
@@ -101,21 +101,28 @@ const mapTimeToPixels = (time: Date, top?: number, height?: number): number => {
   return top + height + elapsedMinutes * pixelsPerMinute;
 };
 
-const random = (max: number) => Math.floor(Math.random() * Math.floor(max));
+const getBookingHeight = (cellHeight: number, duration: number): number => (
+  cellHeight * (duration / 60)
+);
 
-const generateRandomBooking = (): boolean[][] => {
-  const randomDay = random(weekDays.length - 1);
-  const randomHour = random(hours.length - 1);
-  const matrix = availabilityUtils.matrixInit();
-  matrix[randomHour][randomDay] = true;
-  return matrix;
+const findBooking = (
+  bookings: IBookingState[],
+  day: number,
+  hour: number,
+): IBookingState | undefined => {
+  for (let i = 0; i < bookings.length; i += 1) {
+    const { bookingMatrix } = bookings[i];
+    if (bookingMatrix[hour][day - 1]) return bookings[i];
+  }
+  return undefined;
 };
 
 const calendarUtils = {
-  generateRandomBooking,
   mapTimeToPixels,
   isWorkInterval,
   getCalendarCells,
+  getBookingHeight,
+  findBooking,
 };
 
 export default calendarUtils;

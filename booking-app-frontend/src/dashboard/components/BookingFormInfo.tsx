@@ -20,12 +20,12 @@ const BookingFormInfo: FunctionComponent<BookingFormInfoProps> = ({
         <FormInput
           label="Name"
           type="text"
-          value={booking.name}
+          value={booking.userName}
           pattern="^[a-zA-Z\s]*$"
           validationMessage="Your name must contain only letters!"
           onChange={(e) => setBooking({
             ...booking,
-            name: e.target.value,
+            userName: e.target.value,
           })}
         />
         <FormInput
@@ -45,10 +45,10 @@ const BookingFormInfo: FunctionComponent<BookingFormInfoProps> = ({
           <Form.Label> Phone Number </Form.Label>
           <PhoneInput
             country="ro"
-            value={booking.phoneNumber}
-            onChange={(phoneNumber) => setBooking({
+            value={booking.phone}
+            onChange={(phone) => setBooking({
               ...booking,
-              phoneNumber: `+${phoneNumber}`,
+              phone: `+${phone}`,
             })}
           />
         </Form.Group>

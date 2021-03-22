@@ -33,17 +33,15 @@ export interface IServiceState {
     price?: number;
     availabilityMatrix?: boolean[][];
     offeredBy?: string;
-    bookings?: IBookingState[];
 }
 
 export interface IBookingState {
-    id?: string;
     userId: string;
     serviceId: string;
     serviceName?: string;
-    name: string;
+    userName: string;
     email: string;
-    phoneNumber: string;
+    phone: string;
     duration: number;
     availability?: string;
     bookingMatrix: boolean[][];
@@ -56,7 +54,7 @@ export interface IDashboardState extends IFlashState {
 
 export interface IBookingsPageState extends IFlashState {
     isLoading: boolean;
-    services: IServiceState[]; // all the services offered by a user and all their bookings.
+    bookings: IBookingState[]; // all the services offered by a user and all their bookings.
 }
 
 export interface ICalendarState extends IFlashState {

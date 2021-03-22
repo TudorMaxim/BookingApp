@@ -4,7 +4,7 @@ import Register from '../auth/components/Register';
 import Activate from '../auth/components/Activate';
 import Profile from '../profile/components/Profile';
 import Dashboard from '../dashboard/components/Dashboard';
-import Bookings from '../bookings/components/Boookings';
+import Bookings from '../bookings/components/Bookings';
 import Calendar from '../calendar/components/Calendar';
 
 export interface IRoute {

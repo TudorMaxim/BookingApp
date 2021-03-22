@@ -4,7 +4,6 @@ import {
   addServiceRequest, addServiceSuccess, addServiceFailure,
   updateServiceRequest, updateServiceSuccess, updateServiceFailure,
   deleteServiceRequest, deleteServiceSuccess, deleteServiceFailure,
-  submitBookingRequest, submitBookingSuccess,
 } from '../dashboard/actions';
 import { IAction } from '../context/rootReducer';
 import { IBookingState, IServiceState } from '../context/types';
@@ -146,22 +145,11 @@ const deleteService = async (
   return false;
 };
 
-const submitBooking = async (
-  booking: IBookingState,
-  dispatch: Dispatch<IAction>,
-): Promise<void> => {
-  dispatch(submitBookingRequest());
-  const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
-  await sleep(5000);
-  dispatch(submitBookingSuccess());
-};
-
 const dashboardService = {
   fetchServices,
   addService,
   updateService,
   deleteService,
-  submitBooking,
 };
 
 export default dashboardService;
