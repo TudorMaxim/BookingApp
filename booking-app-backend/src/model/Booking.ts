@@ -13,6 +13,10 @@ export interface IBookingAttributes {
     availability?: string;
     duration?: number;
     bookingMatrix?: boolean[][];
+    details?: string;
+    places?: number;
+    price?: number;
+    offeredBy?: string;
     createdAt?: string;
     updatedAt?: string;
 }
@@ -25,7 +29,8 @@ export default class Booking {
     }
 
     public static async create({
-        userId, serviceId, userName, serviceName, email, phone, availability, duration, bookingMatrix,
+        userId, serviceId, userName, serviceName, email, phone, offeredBy,
+        availability, duration, bookingMatrix, details, places, price,
     }: IBookingAttributes): Promise<Booking> {
         const currentTime = new Date(Date.now()).toISOString();
         const service = new Booking({
@@ -38,6 +43,10 @@ export default class Booking {
             availability,
             duration,
             bookingMatrix,
+            details,
+            places,
+            price,
+            offeredBy,
             createdAt: currentTime,
             updatedAt: currentTime,
         });
@@ -120,5 +129,9 @@ export default class Booking {
         duration: this.attributes.duration,
         availability: this.attributes.availability,
         bookingMatrix: this.attributes.bookingMatrix,
+        details: this.attributes.details,
+        places: this.attributes.places,
+        price: this.attributes.price,
+        offeredBy: this.attributes.offeredBy,
     });
 }
