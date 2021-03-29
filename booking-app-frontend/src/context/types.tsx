@@ -43,8 +43,12 @@ export interface IBookingState {
     email: string;
     phone: string;
     duration: number;
-    availability?: string;
     bookingMatrix: boolean[][];
+    details?: string;
+    availability?: string;
+    places?: number;
+    price?: number;
+    offeredBy?: string;
 }
 
 export interface IDashboardState extends IFlashState {

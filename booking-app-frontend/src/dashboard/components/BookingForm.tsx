@@ -28,6 +28,10 @@ const BookingForm: FunctionComponent<BookingFormProps> = ({ service, toggleModal
     email: state.profile.email as string,
     duration: service.duration as number,
     availability: service.availability as string,
+    details: service.details as string,
+    price: service.price as number,
+    places: service.places as number,
+    offeredBy: service.offeredBy as string,
     bookingMatrix: availabilityUtils.matrixInit(),
     phone: '',
   });
