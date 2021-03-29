@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react';
-import { Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { IBookingState } from '../../context/types';
 import calendarUtils from '../../utils/calendar';
 
