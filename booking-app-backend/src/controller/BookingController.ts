@@ -26,19 +26,7 @@ class BookingController {
         await this.validateUserExistance(body);
         this.validateServiceId(body);
         this.validateAttributes(body);
-        const {
-            userId, userName, serviceId, serviceName, phone, duration, availability, bookingMatrix,
-        } = body;
-        const booking = await Booking.create({
-            userId,
-            userName,
-            serviceId,
-            serviceName,
-            phone,
-            duration,
-            availability,
-            bookingMatrix,
-        });
+        const booking = await Booking.create(body);
         await emailSender.sendConfirmationEmailTo(body.email);
         return booking;
     };
