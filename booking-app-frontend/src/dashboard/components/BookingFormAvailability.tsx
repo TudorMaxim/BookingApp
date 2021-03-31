@@ -40,6 +40,17 @@ const BookingFormAvailability: FunctionComponent<BookingFormAvailabilityProps> =
     <th key={index}>{day}</th>
   ));
 
+  const getCheckbox = (hour: string, day: string, i: number, j: number) => (
+    <td key={hour + day}>
+      <Form.Check
+        type="checkbox"
+        disabled={checkDisabled(i, j)}
+        checked={bookingMatrix[i][j]}
+        onChange={() => handleChange(i, j)}
+      />
+    </td>
+  );
+
   return (
     <>
       <div className="booking-form-grid">
@@ -55,7 +66,7 @@ const BookingFormAvailability: FunctionComponent<BookingFormAvailabilityProps> =
       <div className="add-service-form-availability">
         <Table responsive borderless>
           <thead>
-            <tr id="availability-hreader">
+            <tr id="availability-header">
               <th>{' '}</th>
               {rows}
             </tr>
@@ -64,16 +75,7 @@ const BookingFormAvailability: FunctionComponent<BookingFormAvailabilityProps> =
             {availabilityUtils.hours.map((hour, i) => (
               <tr key={hour}>
                 <td>{hour}</td>
-                {availabilityUtils.days.map((day, j) => (
-                  <td key={hour + day}>
-                    <Form.Check
-                      type="checkbox"
-                      disabled={checkDisabled(i, j)}
-                      checked={bookingMatrix[i][j]}
-                      onChange={() => handleChange(i, j)}
-                    />
-                  </td>
-                ))}
+                {availabilityUtils.days.map((day, j) => getCheckbox(hour, day, i, j))}
               </tr>
             ))}
           </tbody>

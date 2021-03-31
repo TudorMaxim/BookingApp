@@ -51,7 +51,9 @@ const BookingForm: FunctionComponent<BookingFormProps> = ({ service, toggleModal
     if (page === 0) {
       nextPage();
     } else if (page === 1 && availabilitySelected()) {
-      bookingService.create(booking, dispatch).then(() => nextPage());
+      bookingService.create(booking, dispatch)
+        .then(() => nextPage())
+        .then(() => bookingService.fetchByUser(state.profile.id as string, dispatch));
     }
   };
 

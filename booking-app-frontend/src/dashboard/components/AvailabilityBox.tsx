@@ -13,11 +13,9 @@ const AvailabilityBox: FunctionComponent<AvailabilityBoxProps> = ({ service, set
   <div className="add-service-form-availability">
     <Table responsive borderless>
       <thead>
-        <tr id="availability-hreader">
+        <tr id="availability-header">
           <th>{' '}</th>
-          {availabilityUtils.days.map((day) => (
-            <th key={day}>{day}</th>
-          ))}
+          {availabilityUtils.days.map((day) => <th key={day}>{day}</th>)}
         </tr>
       </thead>
       <tbody>

@@ -97,7 +97,12 @@ export default class User {
         if (!result.Items || !result.Count || result.Count === 0) {
             return undefined;
         }
-        return dynamodbMapper.mapDynamoDBItemToUser(result.Items[0] as IDynamoDBItem);
+        const isUserKey = (key: string): boolean => key.startsWith(EntityType.USER);
+        let users = result.Items.filter(item => isUserKey(item['PK']) && isUserKey(item['SK']));
+        if (users.length === 0) {
+            return undefined;
+        }
+        return dynamodbMapper.mapDynamoDBItemToUser(users[0] as IDynamoDBItem);
     }
 
     public static async findById(id: string): Promise<User> {

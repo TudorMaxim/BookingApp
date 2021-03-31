@@ -12,6 +12,7 @@ export const useUserProfile = (): void => {
     const token = storage.getToken();
     if (token && !state.auth.isAuthenticated) {
       dispatch(loginSuccess(token));
+      dashboardService.fetchServices(dispatch);
     }
     const profile = storage.getProfile();
     if (profile && state.profile.email !== profile.email) {
