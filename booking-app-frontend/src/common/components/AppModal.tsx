@@ -1,6 +1,12 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import '../styles/AppModal.sass';
+
+export const useAppModal = (intialState: boolean): [boolean, () => void] => {
+  const [show, setShow] = useState(intialState);
+  const toggle = () => setShow(!show);
+  return [show, toggle];
+};
 
 interface IAppModalProps {
     show: boolean;

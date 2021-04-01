@@ -52,6 +52,8 @@ const Profile: FunctionComponent = () => {
             type="text"
             label="Name"
             value={name}
+            pattern="^[a-zA-Z\s]*$"
+            validationMessage="Your name must contain only letters!"
             onChange={(e) => dispatch(updateInput('name', e.target.value))}
           />
           <FormInput
@@ -67,7 +69,13 @@ const Profile: FunctionComponent = () => {
             value={description || ''}
             onChange={(e) => dispatch(updateInput('description', e.target.value))}
           />
-          <StatefulButton type="submit" variant="primary" text="SAVE" isLoading={isLoading} />
+          <StatefulButton
+            type="submit"
+            variant="primary"
+            text="SAVE"
+            className="dashboard-page-button"
+            isLoading={isLoading}
+          />
           <StatefulButton
             isLoading={false}
             text="LOG OUT"

@@ -1,35 +1,34 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import { Button } from 'react-bootstrap';
 import { useStore } from '../../context/store';
 import ServiceCard from './ServiceCard';
 import ServiceForm from './ServiceForm';
 import LoadingSpinner from '../../common/components/LoadingSpinner';
-import AppModal from '../../common/components/AppModal';
-import '../styles/Dashboard.sass';
+import AppModal, { useAppModal } from '../../common/components/AppModal';
 import NoServices from './NoServices';
 import Flash from '../../common/components/Flash';
+import '../styles/Dashboard.sass';
 
 const Dashboard: FunctionComponent = () => {
   const { state } = useStore();
   const {
     services, isLoading, message, success,
   } = state.dashboard;
-  const [show, setShow] = useState(false);
-  const toggleModal = () => setShow(!show);
+  const [show, toggle] = useAppModal(false);
 
   return (
     <>
       { !isLoading
         && (
         <div className="add-service-button-wrapper">
-          <Button className="add-service-button dashboard-page-button" onClick={toggleModal}> Add Service </Button>
+          <Button className="add-service-button dashboard-page-button" onClick={toggle}> Add Service </Button>
         </div>
         )}
       { message && !isLoading && success !== undefined
         && <Flash message={message} success={success} className="normal-alert" />}
       {isLoading && <LoadingSpinner />}
-      <AppModal show={show} title="Add a new service" onHide={toggleModal}>
-        <ServiceForm toggleModal={toggleModal} />
+      <AppModal show={show} title="Add a new service" onHide={toggle}>
+        <ServiceForm toggleModal={toggle} />
       </AppModal>
       <ul id="services-list">
         {services.map((service) => (

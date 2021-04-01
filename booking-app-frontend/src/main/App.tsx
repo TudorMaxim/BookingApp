@@ -1,51 +1,14 @@
-import { FunctionComponent, useEffect, useRef } from 'react';
-import {
-  BrowserRouter, Route, Switch, Redirect,
-} from 'react-router-dom';
-import { useStore } from '../context/store';
-import { loginSuccess } from '../auth/actions';
-import { fetchProfileSuccess } from '../profile/actions';
-import routes, { IRoute } from '../config/routes';
+import { FunctionComponent } from 'react';
+import { BrowserRouter, Switch } from 'react-router-dom';
+import routes from '../config/routes';
 import Header from '../common/components/Header';
-import storage from '../utils/storage';
-import dashboardService from '../service/dashboard.service';
-
-const AppRoute: FunctionComponent<IRoute> = ({ path, component, isPrivate }) => {
-  const { state } = useStore();
-  const loggedIn = state.auth.isAuthenticated || storage.getToken() !== null;
-  if (!loggedIn && isPrivate) {
-    return <Redirect to="/login" />;
-  }
-  if (loggedIn && !isPrivate) {
-    return <Redirect to="/" />;
-  }
-  const exact = path === '/';
-  return (
-    <Route exact={exact} path={path}>
-      {component}
-    </Route>
-  );
-};
+import AppRoute from './AppRoute';
+import { useUserProfile, useInitializer, useBookings } from './hooks';
 
 const App: FunctionComponent = () => {
-  const { state, dispatch } = useStore();
-  const initialMount = useRef(true);
-  useEffect(() => {
-    const token = storage.getToken();
-    if (token && !state.auth.isAuthenticated) {
-      dispatch(loginSuccess(token));
-    }
-    const profile = storage.getProfile();
-    if (profile && state.profile.email !== profile.email) {
-      dispatch(fetchProfileSuccess(profile));
-    }
-  });
-  useEffect(() => {
-    if (initialMount.current) {
-      initialMount.current = false;
-      dashboardService.fetchServices(dispatch);
-    }
-  });
+  useUserProfile();
+  useInitializer();
+  useBookings();
   return (
     <BrowserRouter>
       <Header />

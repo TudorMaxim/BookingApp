@@ -101,7 +101,7 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, submitHandler }): JS
           variant="primary"
           text={type}
           isLoading={state.auth.isLoading}
-          className="submit-button"
+          className="submit-button dashboard-page-button"
         />
       </Form>
     </div>

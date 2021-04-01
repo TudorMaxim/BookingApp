@@ -6,7 +6,7 @@ import {
   deleteServiceRequest, deleteServiceSuccess, deleteServiceFailure,
 } from '../dashboard/actions';
 import { IAction } from '../context/rootReducer';
-import { IServiceState } from '../context/types';
+import { IBookingState, IServiceState } from '../context/types';
 import { MessageTypes } from '../common/actions/types';
 import storage from '../utils/storage';
 import authService from './auth.service';

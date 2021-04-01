@@ -1,0 +1,89 @@
+$calendar-gray: #f8f9fa
+$theme-colour: #91a0ff
+
+.bookings-calendar
+    margin: 50px 0
+    position: relative
+
+.calendar-header
+    display: flex
+    justify-content: space-between
+    background: $calendar-gray
+
+.calendar-header h3
+    margin: 10px
+
+.calendar-header-button
+    background: $theme-colour !important
+    border: 0 !important
+    width: 50px
+
+.calendar-header-button:focus
+    box-shadow: none !important
+
+.calendar-week-view
+    display: grid
+    grid-template-columns: 50px repeat(7, minmax(0, 1fr))
+
+.calendar-week-cell
+    position: relative
+    min-width: 50px
+    min-height: 65px
+    border: 1px solid $calendar-gray
+    display: flex
+    justify-content: center
+    user-select: none
+
+.calendar-week-cell-bold
+    font-weight: bold
+    align-items: center
+
+.calendar-week-current-day
+    border-bottom: 5px solid $theme-colour
+
+.time-line
+    position: absolute
+    border: 0 none
+    width: 100%
+    border-top: 2px dashed $theme-colour
+    z-index: 2
+
+p.current-time
+    position: absolute
+    font-weight: bold
+    color: $theme-colour
+    font-size: 0.75em
+    margin-left: -40px
+    margin-top: -10px
+    background: white
+    border: 2px solid $theme-colour
+    padding: 0 2px
+    z-index: 2
+
+.calendar-bookings-item
+    position: absolute
+    z-index: 1
+    background-color: $theme-colour
+    opacity: 0.75
+    color: white
+    width: 100%
+    height: 100%
+    border: 1px solid $calendar-gray
+    border-radius: 5px;
+    user-select: none
+
+.calendar-bookings-item > p
+    margin-left: 10px
+    margin-top: 2px
+
+.calendar-bookings-item:hover
+    cursor: pointer
+
+@media screen and ( max-width: 610px )
+    p.current-time
+        margin: -10px 0 0 0
+
+.calendar-booking-item-details
+    position: absolute
+    z-index: 5
+    width: 50vw

@@ -1,13 +1,13 @@
-import { FunctionComponent, useState } from 'react';
-import { Card } from 'react-bootstrap';
+import { FunctionComponent } from 'react';
+import { Button, Card } from 'react-bootstrap';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
-import AppModal from '../../common/components/AppModal';
+import AppModal, { useAppModal } from '../../common/components/AppModal';
 import ServiceForm from './ServiceForm';
+import BookingForm from './BookingForm';
 import { IServiceState } from '../../context/types';
-import '../styles/ServiceCard.sass';
 import dashboardService from '../../service/dashboard.service';
 import { useStore } from '../../context/store';
-import StatefulButton from '../../common/components/StatefulButton';
+import '../styles/ServiceCard.sass';
 
 export interface IServiceProps {
   service: IServiceState;
@@ -15,22 +15,46 @@ export interface IServiceProps {
 
 const ServiceCard: FunctionComponent<IServiceProps> = ({ service }) => {
   const { dispatch } = useStore();
-  const [show, setShow] = useState(false);
-  const toggleModal = () => setShow(!show);
+  const [showServiceForm, toggleServiceForm] = useAppModal(false);
+  const [showBookingForm, toggleBookingForm] = useAppModal(false);
   const {
     name, details, availability, places, duration, price, offeredBy,
   } = service;
   return (
     <>
-      <AppModal show={show} title="Edit a service" onHide={toggleModal}>
-        <ServiceForm isEdit initialService={service} toggleModal={toggleModal} />
+      <AppModal
+        show={showServiceForm}
+        title="Edit a service"
+        onHide={toggleServiceForm}
+      >
+        <ServiceForm
+          isEdit
+          initialService={service}
+          toggleModal={toggleServiceForm}
+        />
+      </AppModal>
+      <AppModal
+        show={showBookingForm}
+        title="Make a booking"
+        onHide={toggleBookingForm}
+      >
+        <BookingForm
+          service={service}
+          toggleModal={toggleBookingForm}
+        />
       </AppModal>
       <Card>
         <Card.Header>
           <Card.Title>
             {name}
-            <Trash className="right" onClick={() => dashboardService.deleteService(service, dispatch)} />
-            <PencilSquare className="right" onClick={toggleModal} />
+            <Trash
+              className="right"
+              onClick={() => dashboardService.deleteService(service, dispatch)}
+            />
+            <PencilSquare
+              className="right"
+              onClick={toggleServiceForm}
+            />
           </Card.Title>
         </Card.Header>
         <Card.Body>
@@ -60,12 +84,9 @@ const ServiceCard: FunctionComponent<IServiceProps> = ({ service }) => {
           </div>
         </Card.Body>
         <Card.Footer>
-          <StatefulButton
-            className="dashboard-page-button"
-            isLoading={false}
-            text="BOOK NOW"
-            variant="primary"
-          />
+          <Button className="dashboard-page-button" variant="primary" onClick={toggleBookingForm}>
+            BOOK NOW
+          </Button>
           <p className="card-footer-text">
             {'Offered by '}
             <span className="card-footer-company">{offeredBy}</span>

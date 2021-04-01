@@ -19,6 +19,14 @@ const initialState: IState = {
     services: [],
     isLoading: false,
   },
+  bookingsPage: {
+    isLoading: false,
+    bookings: [],
+  },
+  calendar: {
+    isLoading: false,
+    bookings: [],
+  },
 };
 
 export default initialState;

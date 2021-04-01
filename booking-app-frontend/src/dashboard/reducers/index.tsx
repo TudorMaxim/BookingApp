@@ -8,6 +8,7 @@ const dashboardReducer = (state: IDashboardState, action: IDashboardAction): IDa
     case DashboardActionTypes.UPDATE_SERVICE_REQUEST:
     case DashboardActionTypes.DELETE_SERVICE_REQUEST:
     case DashboardActionTypes.FETCH_SERVICES_REQUEST:
+    case DashboardActionTypes.SUBMIT_BOOKING_REQUEST:
       return {
         ...state,
         isLoading: true,
@@ -49,6 +50,8 @@ const dashboardReducer = (state: IDashboardState, action: IDashboardAction): IDa
     case DashboardActionTypes.UPDATE_SERVICE_FAILURE:
     case DashboardActionTypes.DELETE_SERVICE_FAILURE:
     case DashboardActionTypes.FETCH_SERVICES_FAILURE:
+    case DashboardActionTypes.SUBMIT_BOOKING_SUCCESS:
+    case DashboardActionTypes.SUBMIT_BOOKING_FAILURE:
       return {
         ...state,
         isLoading: false,
