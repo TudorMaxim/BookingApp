@@ -33,6 +33,7 @@ export interface IServiceState {
     price?: number;
     availabilityMatrix?: boolean[][];
     offeredBy?: string;
+    updatedAt?: string;
 }
 
 export interface IBookingState {

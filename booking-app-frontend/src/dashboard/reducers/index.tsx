@@ -22,8 +22,8 @@ const dashboardReducer = (state: IDashboardState, action: IDashboardAction): IDa
     case DashboardActionTypes.ADD_SERVICE_SUCCESS:
       return {
         services: [
-          ...state.services,
           action.payload as IServiceState,
+          ...state.services,
         ],
         isLoading: false,
       };
