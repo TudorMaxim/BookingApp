@@ -21,6 +21,7 @@ const initialState: IState = {
   },
   bookingsPage: {
     isLoading: false,
+    current: -1,
     bookings: [],
   },
   calendar: {

@@ -40,10 +40,11 @@ export const useBookings = (): void => {
   const shouldFetchBookings = useRef(true);
   const { state, dispatch } = useStore();
   const { services } = state.dashboard;
+  const { id } = state.profile;
   useEffect(() => {
     if (services.length && shouldFetchBookings.current) {
       shouldFetchBookings.current = false;
-      bookingService.fetchByService(services[0].id as string, dispatch);
+      bookingService.fetchAll(id as string, dispatch);
     }
   });
 };

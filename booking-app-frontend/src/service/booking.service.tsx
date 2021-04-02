@@ -100,10 +100,40 @@ const fetchByUser = async (
   }
 };
 
+const fetchAll = async (
+  userId: string,
+  dispatch: Dispatch<IAction>,
+): Promise<void> => {
+  dispatch(fetchByServiceRequest());
+  const token = storage.getToken();
+  const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/bookings?userId=${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const body = await response.json();
+  if (response.ok) {
+    dispatch(fetchByServiceSuccess(body.bookings));
+  } else if (response.status === 401) {
+    authService.logout(MessageTypes.SESSION_EXPIRED, dispatch);
+    dispatch(setFlash({
+      message: MessageTypes.SESSION_EXPIRED,
+      success: false,
+    }));
+  } else {
+    dispatch(fetchByServiceFailure(body.message));
+    dispatch(setFlash({
+      message: body.message,
+      success: false,
+    }));
+  }
+};
+
 const bookingService = {
   create,
   fetchByService,
   fetchByUser,
+  fetchAll,
 };
 
 export default bookingService;

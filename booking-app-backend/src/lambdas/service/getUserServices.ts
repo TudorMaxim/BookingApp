@@ -12,7 +12,12 @@ const getUserServices: APIGatewayProxyHandler = async event => {
     }
     try {
         const { userId } = event.queryStringParameters;
-        const services = await serviceController.getForUser(userId);
+        const services = await serviceController.getForUser(userId).then((services) => {
+            return services.sort((a, b) => {
+                if (!a.attributes.updatedAt || !b.attributes.updatedAt) return 0;
+                return a.attributes.updatedAt > b.attributes.updatedAt ? -1 : 1;
+            });
+        });
         return apiResponse.success({
             body: services.map(service => service.toDTO()),
         });

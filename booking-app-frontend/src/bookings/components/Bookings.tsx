@@ -1,32 +1,36 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import {
   ButtonGroup, Dropdown, Table, Button,
 } from 'react-bootstrap';
 import { useStore } from '../../context/store';
 import Flash from '../../common/components/Flash';
 import LoadingSpinner from '../../common/components/LoadingSpinner';
-import '../styles/Bookings.sass';
 import bookingService from '../../service/booking.service';
+import { setCurrent } from '../actions';
+import '../styles/Bookings.sass';
 
 const Bookings: FunctionComponent = () => {
   const { state, dispatch } = useStore();
   const { services } = state.dashboard;
-  const [current, setCurrent] = useState(0);
   const {
-    bookings, isLoading, message, success,
+    bookings, isLoading, message, success, current,
   } = state.bookingsPage;
 
   const handleSelect = (selected: number) => {
     if (services.length && selected !== current) {
-      bookingService.fetchByService(services[selected].id as string, dispatch);
-      setCurrent(selected);
+      if (selected === -1) {
+        bookingService.fetchAll(state.profile.id as string, dispatch);
+      } else {
+        bookingService.fetchByService(services[selected].id as string, dispatch);
+      }
+      dispatch(setCurrent(selected));
     }
   };
 
   if (services.length === 0) {
     return <p> You do not have any services!</p>;
   }
-  const { name } = services[current];
+  const name = current === -1 ? 'All' : services[current].name;
   return (
     <>
       {message && !isLoading && success !== undefined
@@ -36,6 +40,7 @@ const Bookings: FunctionComponent = () => {
         <Button className=" dropdown-button wide">{name}</Button>
         <Dropdown.Toggle split className="service-dropdown-toggle dropdown-button" />
         <Dropdown.Menu>
+          <Dropdown.Item onSelect={() => handleSelect(-1)}> All </Dropdown.Item>
           {services.map((service, index) => (
             <div key={service.id}>
               <Dropdown.Item onSelect={() => handleSelect(index)}>

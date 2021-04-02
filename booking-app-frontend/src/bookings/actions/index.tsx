@@ -14,3 +14,8 @@ export const fetchByServiceFailure = (message: string): IBookingsPageAction => (
   type: BookingsPageActionTypes.FETCH_FAILURE,
   message,
 });
+
+export const setCurrent = (current: number): IBookingsPageAction => ({
+  type: BookingsPageActionTypes.SET_CURRENT,
+  current,
+});
