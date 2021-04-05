@@ -33,6 +33,7 @@ export interface IServiceState {
     price?: number;
     availabilityMatrix?: boolean[][];
     offeredBy?: string;
+    updatedAt?: string;
 }
 
 export interface IBookingState {
@@ -58,6 +59,7 @@ export interface IDashboardState extends IFlashState {
 
 export interface IBookingsPageState extends IFlashState {
     isLoading: boolean;
+    current: number;
     bookings: IBookingState[]; // all the services offered by a user and all their bookings.
 }
 

@@ -31,7 +31,10 @@ const Dashboard: FunctionComponent = () => {
         <ServiceForm toggleModal={toggle} />
       </AppModal>
       <ul id="services-list">
-        {services.map((service) => (
+        {services.slice().sort((a, b) => {
+          if (!a.updatedAt || !b.updatedAt) return 0;
+          return a.updatedAt > b.updatedAt ? -1 : 1;
+        }).map((service) => (
           <li key={service.name} className="services-list-item">
             <ServiceCard service={service} />
           </li>

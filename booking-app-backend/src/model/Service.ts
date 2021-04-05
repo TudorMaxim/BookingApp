@@ -155,6 +155,7 @@ export default class Service {
         offeredBy: this.attributes.offeredBy,
         availability: this.availability,
         availabilityMatrix: this.attributes.availabilityMatrix,
+        updatedAt: this.attributes.updatedAt,
     });
 
     private removeUndefinded(attributes: IServiceAttributes): void {

@@ -62,6 +62,7 @@ const CalendarWeeklyView: FunctionComponent<CalendarWeeklyViewProps> = ({ curren
     <>
       <p
         className="current-time"
+        data-testid="current-time"
         hidden={!calendarUtils.isWorkInterval(time)}
         style={{ top: timeLineTop }}
       >
@@ -69,10 +70,11 @@ const CalendarWeeklyView: FunctionComponent<CalendarWeeklyViewProps> = ({ curren
       </p>
       <div
         className="time-line"
+        data-testid="time-line"
         hidden={!calendarUtils.isWorkInterval(time)}
         style={{ top: timeLineTop }}
       />
-      <div className="calendar-week-view">
+      <div className="calendar-week-view" data-testid="calendar-week-view">
         {cells.map((cell, index) => (
           <CalendarWeeklyCell
             key={index}

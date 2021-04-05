@@ -23,6 +23,11 @@ const bookingsPageReducer = (
         isLoading: false,
         message: action.message,
       };
+    case BookingsPageActionTypes.SET_CURRENT:
+      return {
+        ...state,
+        current: action.current as number,
+      };
     default:
       return state;
   }
