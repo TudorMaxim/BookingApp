@@ -7,6 +7,7 @@ import Profile from '../profile/components/Profile';
 import Dashboard from '../dashboard/components/Dashboard';
 import Bookings from '../bookings/components/Bookings';
 import Calendar from '../calendar/components/Calendar';
+import PasswordReset from '../profile/components/PasswordReset';
 
 export interface IRoute {
   path: string;
@@ -46,6 +47,10 @@ const routes: IRoute[] = [{
   path: '/recover',
   component: <Recover />,
   isPrivate: false,
+}, {
+  path: '/reset',
+  component: <PasswordReset />,
+  isPrivate: true,
 }, {
   path: '/',
   component: <Dashboard />,

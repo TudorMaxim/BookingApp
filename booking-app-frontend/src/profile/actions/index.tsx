@@ -34,3 +34,17 @@ export const updateFailure = (message: string): IProfileAction => ({
   type: ProfileActionTypes.UPDATE_FAILURE,
   message,
 });
+
+export const resetPasswordRequest = (): IProfileAction => ({
+  type: ProfileActionTypes.RESET_PASSWORD_REQUEST,
+});
+
+export const resetPasswordSuccess = (message: string): IProfileAction => ({
+  type: ProfileActionTypes.RESET_PASSWORD_SUCCESS,
+  message,
+});
+
+export const resetPasswordFailure = (message: string): IProfileAction => ({
+  type: ProfileActionTypes.RESET_PASSWORD_FAILURE,
+  message,
+});

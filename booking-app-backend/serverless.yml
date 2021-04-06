@@ -74,6 +74,15 @@ functions:
           cors: true
           authorizer: authorize
   
+  resetPassword:
+    handler: src/lambdas/profile/resetPassword.handler
+    events:
+      - http:
+          path: /api/profile
+          method: PATCH
+          cors: true
+          authorizer: authorize
+
   getProfile:
     handler: src/lambdas/profile/get.handler
     events:

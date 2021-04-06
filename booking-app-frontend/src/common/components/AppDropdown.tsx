@@ -45,8 +45,8 @@ const AppDropdown: FunctionComponent<AppDropdownProps> = ({
         <div
           className="nav-link"
           aria-hidden="true"
-          onClick={() => authService.logout(name, dispatch)}
-          onKeyDown={() => authService.logout(name, dispatch)}
+          onClick={() => authService.logout(`Goodbye, ${name}!`, dispatch)}
+          onKeyDown={() => authService.logout(`Goodbye, ${name}!`, dispatch)}
         >
           Logout
         </div>
