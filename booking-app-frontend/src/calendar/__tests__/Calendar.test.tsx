@@ -17,7 +17,7 @@ describe('Test Calendar page appearence', () => {
   });
 
   test('Calendar renders all cells', () => {
-    let container = screen.queryByTestId('calendar-week-view');
+    const container = screen.queryByTestId('calendar-week-view');
     expect(container).toBeTruthy();
     expect(container?.children.length).toBe(8 * 13);
   });

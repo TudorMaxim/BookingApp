@@ -2,6 +2,7 @@ import React from 'react';
 import Login from '../auth/components/Login';
 import Register from '../auth/components/Register';
 import Activate from '../auth/components/Activate';
+import Recover from '../auth/components/Recover';
 import Profile from '../profile/components/Profile';
 import Dashboard from '../dashboard/components/Dashboard';
 import Bookings from '../bookings/components/Bookings';
@@ -40,6 +41,10 @@ const routes: IRoute[] = [{
 }, {
   path: '/activate/:id',
   component: <Activate />,
+  isPrivate: false,
+}, {
+  path: '/recover',
+  component: <Recover />,
   isPrivate: false,
 }, {
   path: '/',

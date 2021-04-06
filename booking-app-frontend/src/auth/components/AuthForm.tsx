@@ -3,6 +3,7 @@ import {
   SetStateAction, useEffect, useState,
 } from 'react';
 import { Form } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import BookingAppLogo from '../../assets/BookingAppLogo.png';
 import { IAuthCredentials } from '../actions/types';
 import FormInput, { useFormInput } from './FormInput';
@@ -95,6 +96,9 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, submitHandler }): JS
             isValid={validPassword as boolean}
             changeHandler={setPassword as Dispatch<SetStateAction<string>>}
           />
+        )}
+        { type === AuthFormTypes.LOGIN && (
+          <Link to="/recover"> Forgot your password? </Link>
         )}
         <StatefulButton
           type="submit"
