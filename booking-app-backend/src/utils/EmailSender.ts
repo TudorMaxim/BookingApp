@@ -25,6 +25,12 @@ class EmailSender {
         await this.ses.sendEmail(params).promise();
     }
 
+    public async sendRecoveryEmail(email: string, password: string): Promise<void> {
+        const data = this.recoveryEmailFor(email, password);
+        const params = this.buildParams(data);
+        await this.ses.sendEmail(params).promise();
+    }
+
     private registrationEmailFor(user: User): IEmailData {
         const sender: string = process.env.EMAIL_SENDER || '';
         const registrationLink = `${process.env.FRONTEND_HOST}/activate/${user.attributes.id}`;
@@ -48,6 +54,22 @@ class EmailSender {
                 <p> We received your booking. Please check your calendar <a href="${calendarLink}"> here </a>.</p>`
         }
     }
+
+    private recoveryEmailFor(email: string, password: string): IEmailData {
+        const sender = process.env.EMAIL_SENDER || '';
+        const loginLink = `${process.env.FRONTEND_HOST}/login`;
+        return {
+            sender,
+            receiver: email,
+            subject: 'Recover your account',
+            htmlBody: `<h3> Hello!</h3>
+                <p> Your password was successfully reset!</p>
+                <p> Your new password is: ${password} </p>
+                <p> Use it to login by clicking <a href="${loginLink}"> here </a>. </p>
+                <p> Note: we recommend changing your password after you login </p>`
+        }
+    }
+
 
     private buildParams = (data: IEmailData): SendEmailRequest => ({
         Source: data.sender,
