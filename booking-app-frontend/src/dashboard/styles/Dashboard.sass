@@ -13,9 +13,31 @@ $button-colour-focus: #8797ff
     position: relative
     height: 38px
 
+.search-bar
+    position: absolute
+    left: 0
+    width: 300px
+
+.search-bar > input
+    border-radius: 20px
+    border-color: $button-colour
+    z-index: 1
+
+.search-bar > input:focus
+    box-shadow: 0 0 0 0.1rem $button-colour
+
+#search-magnifying-glass
+    position: absolute
+    left: 275px
+    top: 12px
+    z-index: 2
+    color: $button-colour-focus
+
 button.add-service-button
     position: absolute
     right: 0
+    height: 32
+    width: auto
 
 button.dashboard-page-button
     background-color: $button-colour !important

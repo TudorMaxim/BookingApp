@@ -69,7 +69,7 @@ const resetPassword = async (
   password: string,
   passwordConfirmed: string,
   dispatch: Dispatch<IAction>,
-) => {
+): Promise<void> => {
   dispatch(resetPasswordRequest());
   if (password !== passwordConfirmed) {
     dispatch(updateFailure('Error: Please type the same password in both inputs.'));

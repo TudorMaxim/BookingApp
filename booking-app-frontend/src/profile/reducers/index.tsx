@@ -1,4 +1,4 @@
-import { CommonActionTypes } from '../../common/actions/types';
+import { CommonActionTypes, IInputPayload } from '../../common/actions/types';
 import { IProfileState } from '../../context/types';
 import { IProfileAction, ProfileActionTypes } from '../actions/types';
 
@@ -12,7 +12,7 @@ const profileReducer = (state: IProfileState, action: IProfileAction): IProfileS
     case ProfileActionTypes.UPDATE_INPUT:
       return {
         ...state,
-        [action.inputPayload!.key]: action.inputPayload!.value,
+        [(action.inputPayload as IInputPayload).key]: (action.inputPayload as IInputPayload).value,
       };
     case ProfileActionTypes.UPDATE_IMAGE:
       return {

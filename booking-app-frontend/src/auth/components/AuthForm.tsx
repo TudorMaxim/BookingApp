@@ -98,7 +98,7 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, submitHandler }): JS
           />
         )}
         { type === AuthFormTypes.LOGIN && (
-          <Link to="/recover"> Forgot your password? </Link>
+          <Link id="recover-account-link" to="/recover"> Forgot your password? </Link>
         )}
         <StatefulButton
           type="submit"
