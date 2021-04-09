@@ -54,6 +54,19 @@ export default class Booking {
         return service;
     }
 
+    public async update(attributes: IBookingAttributes): Promise<void> {
+        this.removeUndefinded(attributes);
+        if (Object.keys(attributes).length === 0) {
+            return;
+        }
+        this.attributes = {
+            ...this.attributes,
+            ...attributes,
+            updatedAt: new Date(Date.now()).toISOString(),
+        };
+        await this.save();
+    }
+
     private async save(): Promise<void> {
         await dynamodb.put({
             TableName: process.env.DYNAMODB_TABLE!,
@@ -134,4 +147,8 @@ export default class Booking {
         price: this.attributes.price,
         offeredBy: this.attributes.offeredBy,
     });
+
+    private removeUndefinded(attributes: IBookingAttributes) {
+        Object.keys(attributes).forEach(key => attributes[key] === undefined && delete attributes[key]);
+    }
 }

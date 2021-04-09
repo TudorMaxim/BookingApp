@@ -160,6 +160,14 @@ functions:
           cors: true
           authorizer: authorize
   
+  updateBooking:
+    handler: src/lambdas/booking/update.handler
+    events:
+      - http:
+          path: /api/bookings
+          method: PATCH
+          cors: true
+          authorizer: authorize
 
 resources:
   - ${file(./resources/dynamodb.yml)}

@@ -14,3 +14,14 @@ export const fetchFailure = (message: string): ICalendarAction => ({
   type: CalendarActionTypes.FETCH_FAILURE,
   message,
 });
+
+export const updateBooking = (
+  booking: IBookingState | undefined,
+  day: number | undefined,
+  hour: number | undefined,
+): ICalendarAction => ({
+  type: CalendarActionTypes.UPDATE_BOOKING,
+  booking,
+  day,
+  hour,
+});
