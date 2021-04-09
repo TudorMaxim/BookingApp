@@ -57,6 +57,14 @@ functions:
           method: POST
           cors: true
   
+  recover:
+    handler: src/lambdas/auth/recover.handler
+    events:
+      - http:
+          path: /api/recover
+          method: POST
+          cors: true
+  
   updateProfile:
     handler: src/lambdas/profile/update.handler
     events:
@@ -66,6 +74,15 @@ functions:
           cors: true
           authorizer: authorize
   
+  resetPassword:
+    handler: src/lambdas/profile/resetPassword.handler
+    events:
+      - http:
+          path: /api/profile
+          method: PATCH
+          cors: true
+          authorizer: authorize
+
   getProfile:
     handler: src/lambdas/profile/get.handler
     events:

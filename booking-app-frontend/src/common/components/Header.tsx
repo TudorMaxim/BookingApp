@@ -1,10 +1,11 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../context/store';
 import imagesService from '../../service/images.service';
 import BookingAppLogoSmall from '../../assets/BookingAppLogoSmall.png';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.png';
+import AppDropdown from './AppDropdown';
 import '../styles/Header.sass';
 
 const PublicLinks: FunctionComponent = () => (
@@ -17,6 +18,7 @@ const PublicLinks: FunctionComponent = () => (
 );
 
 const PrivateLinks: FunctionComponent = () => {
+  const [show, setShow] = useState(false);
   const { state } = useStore();
   const { hasImage, imageKey, name } = state.profile;
   let imageSrc = DefaultProfileImage;
@@ -26,13 +28,33 @@ const PrivateLinks: FunctionComponent = () => {
   return (
     <Navbar.Collapse id="header-navbar">
       <Nav className="ml-auto">
-        <Link className="nav-link" to="/dashboard"> Services </Link>
-        <Link className="nav-link" to="/bookings"> Bookings </Link>
-        <Link className="nav-link" to="/calendar"> Calendar </Link>
-        <Link className="nav-link" to="/profile">
-          {name.split(' ')[0]}
-          <img className="user-profile-image-small" src={imageSrc} alt="Profile" />
+        <Link
+          className="nav-link"
+          to="/dashboard"
+          onClick={() => setShow(false)}
+        >
+          Services
         </Link>
+        <Link
+          className="nav-link"
+          to="/bookings"
+          onClick={() => setShow(false)}
+        >
+          Bookings
+        </Link>
+        <Link
+          className="nav-link"
+          to="/calendar"
+          onClick={() => setShow(false)}
+        >
+          Calendar
+        </Link>
+        <AppDropdown
+          name={name}
+          imageSrc={imageSrc}
+          show={show}
+          setShow={setShow}
+        />
       </Nav>
     </Navbar.Collapse>
   );

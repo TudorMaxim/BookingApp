@@ -3,7 +3,9 @@ import { IAuthAction, IAuthCredentials } from '../auth/actions/types';
 import {
   loginRequest, loginSuccess, loginFailure,
   registerRequest, registerSuccess, registerFailure,
-  logoutSuccess, activateSuccess, activateFailure, activateRequest,
+  logoutSuccess,
+  activateSuccess, activateFailure, activateRequest,
+  recoverRequest, recoverSuccess, recoverFailure,
 } from '../auth/actions';
 import { IProfileState } from '../context/types';
 import { fetchProfileSuccess, clearProfile } from '../profile/actions';
@@ -83,11 +85,29 @@ const activateAccount = async (id: string, dispatch: Dispatch<IAuthAction>): Pro
   dispatch(activateSuccess(responseBody.message));
 };
 
+const recover = async (email: string, dispatch: Dispatch<IAuthAction>): Promise<void> => {
+  dispatch(recoverRequest());
+  const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/recover`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email }),
+  });
+  const responseBody = await response.json();
+  if (response.ok) {
+    dispatch(recoverSuccess(responseBody.message));
+  } else {
+    dispatch(recoverFailure(responseBody.message));
+  }
+};
+
 const authService = {
   login,
   logout,
   register,
   activateAccount,
+  recover,
 };
 
 export default authService;

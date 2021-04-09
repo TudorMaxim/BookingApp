@@ -50,3 +50,17 @@ export const activateFailure = (message: string): IAuthAction => ({
   type: AuthActionTypes.ACTIVATE_FAILURE,
   message,
 });
+
+export const recoverRequest = (): IAuthAction => ({
+  type: AuthActionTypes.RECOVER_REQUEST,
+});
+
+export const recoverSuccess = (message: string): IAuthAction => ({
+  type: AuthActionTypes.RECOVER_SUCCESS,
+  message,
+});
+
+export const recoverFailure = (message: string): IAuthAction => ({
+  type: AuthActionTypes.RECOVER_FAILURE,
+  message,
+});

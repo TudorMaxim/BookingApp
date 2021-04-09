@@ -2,7 +2,10 @@ import { Dispatch } from 'react';
 import authService from './auth.service';
 import imagesService from './images.service';
 import { IProfileState } from '../context/types';
-import { updateFailure, updateRequest, updateSuccess } from '../profile/actions';
+import {
+  updateFailure, updateRequest, updateSuccess,
+  resetPasswordRequest, resetPasswordSuccess, resetPasswordFailure,
+} from '../profile/actions';
 import { IAction } from '../context/rootReducer';
 import storage from '../utils/storage';
 
@@ -61,8 +64,38 @@ const updateProfile = async (
   }
 };
 
+const resetPassword = async (
+  id: string,
+  password: string,
+  passwordConfirmed: string,
+  dispatch: Dispatch<IAction>,
+): Promise<void> => {
+  dispatch(resetPasswordRequest());
+  if (password !== passwordConfirmed) {
+    dispatch(updateFailure('Error: Please type the same password in both inputs.'));
+    return;
+  }
+  const token = storage.getToken();
+  const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/profile`, {
+    method: 'PATCH',
+    body: JSON.stringify({ id, password }),
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (response.ok) {
+    dispatch(resetPasswordSuccess('Password successfuly reset!'));
+  } else if (response.status === 401) {
+    authService.logout('Your session expired. Please login again', dispatch);
+    storage.clear();
+  } else {
+    dispatch(resetPasswordFailure('Error: Could not reset password!'));
+  }
+};
+
 const profileService = {
   updateProfile,
+  resetPassword,
 };
 
 export default profileService;

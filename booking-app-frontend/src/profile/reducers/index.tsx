@@ -1,4 +1,4 @@
-import { CommonActionTypes } from '../../common/actions/types';
+import { CommonActionTypes, IInputPayload } from '../../common/actions/types';
 import { IProfileState } from '../../context/types';
 import { IProfileAction, ProfileActionTypes } from '../actions/types';
 
@@ -12,7 +12,7 @@ const profileReducer = (state: IProfileState, action: IProfileAction): IProfileS
     case ProfileActionTypes.UPDATE_INPUT:
       return {
         ...state,
-        [action.inputPayload!.key]: action.inputPayload!.value,
+        [(action.inputPayload as IInputPayload).key]: (action.inputPayload as IInputPayload).value,
       };
     case ProfileActionTypes.UPDATE_IMAGE:
       return {
@@ -20,6 +20,7 @@ const profileReducer = (state: IProfileState, action: IProfileAction): IProfileS
         image: action.image,
       };
     case ProfileActionTypes.UPDATE_REQUEST:
+    case ProfileActionTypes.RESET_PASSWORD_REQUEST:
       return {
         ...state,
         isLoading: true,
@@ -32,7 +33,15 @@ const profileReducer = (state: IProfileState, action: IProfileAction): IProfileS
         message: action.message,
         success: true,
       };
+    case ProfileActionTypes.RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        message: action.message,
+        success: true,
+      };
     case ProfileActionTypes.UPDATE_FAILURE:
+    case ProfileActionTypes.RESET_PASSWORD_FAILURE:
       return {
         ...state,
         isLoading: false,

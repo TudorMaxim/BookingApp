@@ -7,6 +7,7 @@ const authReducer = (state: IAuthState, action: IAuthAction | ICommonAction): IA
     case AuthActionTypes.LOGIN_REQUEST:
     case AuthActionTypes.REGISTER_REQUEST:
     case AuthActionTypes.ACTIVATE_REQUEST:
+    case AuthActionTypes.RECOVER_REQUEST:
       return {
         ...state,
         isLoading: true,
@@ -15,6 +16,7 @@ const authReducer = (state: IAuthState, action: IAuthAction | ICommonAction): IA
       };
     case AuthActionTypes.LOGIN_FAILURE:
     case AuthActionTypes.REGISTER_FAILURE:
+    case AuthActionTypes.RECOVER_FAILURE:
       return {
         ...state,
         isLoading: false,
@@ -31,6 +33,7 @@ const authReducer = (state: IAuthState, action: IAuthAction | ICommonAction): IA
         token: action.token as string,
       };
     case AuthActionTypes.REGISTER_SUCCESS:
+    case AuthActionTypes.RECOVER_SUCCESS:
       return {
         ...state,
         isLoading: false,

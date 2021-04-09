@@ -57,6 +57,7 @@ const Bookings: FunctionComponent = () => {
           <thead>
             <tr className="bookings-table-hreader">
               <th> Name </th>
+              <th> Service </th>
               <th> Email </th>
               <th> Phone Number </th>
               <th> Availability </th>
@@ -66,6 +67,7 @@ const Bookings: FunctionComponent = () => {
             {bookings && bookings.map((booking) => (
               <tr key={booking.userId + booking.serviceId}>
                 <td>{booking.userName}</td>
+                <td>{booking.serviceName}</td>
                 <td>{booking.email}</td>
                 <td>{booking.phone}</td>
                 <td>{booking.availability}</td>
