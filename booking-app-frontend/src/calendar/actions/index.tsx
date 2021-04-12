@@ -16,9 +16,9 @@ export const fetchFailure = (message: string): ICalendarAction => ({
 });
 
 export const updateBooking = (
-  booking: IBookingState | undefined,
-  day: number | undefined,
-  hour: number | undefined,
+  booking?: IBookingState,
+  day?: number,
+  hour?: number,
 ): ICalendarAction => ({
   type: CalendarActionTypes.UPDATE_BOOKING,
   booking,

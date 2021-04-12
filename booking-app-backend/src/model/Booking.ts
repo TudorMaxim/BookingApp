@@ -13,6 +13,7 @@ export interface IBookingAttributes {
     availability?: string;
     duration?: number;
     bookingMatrix?: boolean[][];
+    availabilityMatrix?: boolean[][];
     details?: string;
     places?: number;
     price?: number;
@@ -30,7 +31,7 @@ export default class Booking {
 
     public static async create({
         userId, serviceId, userName, serviceName, email, phone, offeredBy,
-        availability, duration, bookingMatrix, details, places, price,
+        availability, duration, bookingMatrix, details, places, price, availabilityMatrix,
     }: IBookingAttributes): Promise<Booking> {
         const currentTime = new Date(Date.now()).toISOString();
         const service = new Booking({
@@ -47,6 +48,7 @@ export default class Booking {
             places,
             price,
             offeredBy,
+            availabilityMatrix,
             createdAt: currentTime,
             updatedAt: currentTime,
         });
@@ -74,7 +76,7 @@ export default class Booking {
         }).promise();
     }
 
-    public static async find(serviceId: string, userId: string): Promise<Booking | undefined> {
+    public static async find(userId: string, serviceId: string): Promise<Booking | undefined> {
         const result = await dynamodb.query({
             TableName: process.env.DYNAMODB_TABLE!,
             KeyConditionExpression: "#PK = :userId and #SK = :serviceId",
@@ -146,6 +148,7 @@ export default class Booking {
         places: this.attributes.places,
         price: this.attributes.price,
         offeredBy: this.attributes.offeredBy,
+        availabilityMatrix: this.attributes.availabilityMatrix,
     });
 
     private removeUndefinded(attributes: IBookingAttributes) {

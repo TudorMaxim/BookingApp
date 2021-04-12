@@ -22,7 +22,6 @@ const calendarReducer = (state: ICalendarState, action: ICalendarAction): ICalen
         message: action.message,
       };
     case CalendarActionTypes.UPDATE_BOOKING:
-      console.log(action);
       return {
         ...state,
         bookings: calendarUtils.updateBookingsState(

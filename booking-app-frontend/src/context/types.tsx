@@ -45,6 +45,7 @@ export interface IBookingState {
     phone: string;
     duration: number;
     bookingMatrix: boolean[][];
+    availabilityMatrix?: boolean[][];
     details?: string;
     availability?: string;
     places?: number;

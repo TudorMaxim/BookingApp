@@ -21,7 +21,7 @@ export interface WeeklyCell {
 
 export const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-export const hours = Array.from(Array(12).keys()).map((hour) => {
+export const hours = Array.from(Array(13).keys()).map((hour) => {
   let mapped = `${hour + 7}:00`;
   if (hour < 3) {
     mapped = `0${mapped}`;

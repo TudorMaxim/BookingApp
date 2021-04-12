@@ -5,11 +5,14 @@ import { IAction } from '../context/rootReducer';
 import { IBookingState } from '../context/types';
 import authService from './auth.service';
 import storage from '../utils/storage';
-import { fetchFailure, fetchRequest, fetchSuccess } from '../calendar/actions';
+import {
+  fetchFailure, fetchRequest, fetchSuccess, updateBooking,
+} from '../calendar/actions';
 import {
   submitBookingFailure, submitBookingRequest, submitBookingSuccess,
 } from '../dashboard/actions';
 import { fetchByServiceFailure, fetchByServiceRequest, fetchByServiceSuccess } from '../bookings/actions';
+import availabilityUtils from '../utils/availability';
 
 const create = async (
   booking: IBookingState,
@@ -40,6 +43,30 @@ const create = async (
       success: false,
     }));
   }
+};
+
+const update = async (
+  booking: IBookingState,
+  day: number,
+  hour: number,
+  dispatch: Dispatch<IAction>,
+): Promise<void> => {
+  dispatch(updateBooking(booking, day, hour));
+  const token = storage.getToken();
+  const updatedBooking = booking;
+  updatedBooking.bookingMatrix = availabilityUtils.matrixSet(
+    availabilityUtils.matrixInit(),
+    true,
+    hour,
+    day - 1,
+  );
+  await fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/bookings`, {
+    method: 'PATCH',
+    body: JSON.stringify(booking),
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 const fetchByService = async (
@@ -131,6 +158,7 @@ const fetchAll = async (
 
 const bookingService = {
   create,
+  update,
   fetchByService,
   fetchByUser,
   fetchAll,

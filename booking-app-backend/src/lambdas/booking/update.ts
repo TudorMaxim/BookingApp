@@ -11,7 +11,7 @@ const updateBooking: APIGatewayProxyHandler = async event => {
         });
     }
     try {
-        const { booking } = JSON.parse(event.body)
+        const booking = JSON.parse(event.body);
         const currentBooking = await Booking.find(booking.userId, booking.serviceId);
         if (!currentBooking) {
             throw new Error(`Error: booking with userId ${booking.userId} and serviceId ${booking.serviceId} does not exist!`);

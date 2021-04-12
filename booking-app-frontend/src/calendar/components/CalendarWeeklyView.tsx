@@ -47,7 +47,9 @@ const CalendarWeeklyView: FunctionComponent<CalendarWeeklyViewProps> = ({ curren
     type, value, day, hour,
   }: WeeklyCell) => {
     if (type === WeeklyCellTypes.CONTENT
-      && bookingsMatrix && day && hour !== undefined && bookingsMatrix[hour][day - 1]) {
+      && bookingsMatrix && day
+      && hour !== undefined && hour < 12
+      && bookingsMatrix[hour][day - 1]) {
       const booking = calendarUtils.findBooking(bookings, day, hour);
       const currentWeek = cells
         .map((cell) => cell.current)
