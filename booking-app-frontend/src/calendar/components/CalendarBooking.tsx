@@ -9,18 +9,21 @@ interface CalendarBookingProps {
 
 const CalendarBooking: FunctionComponent<CalendarBookingProps> = ({ booking }) => {
   const {
-    serviceName, duration, details, availability, places, price, offeredBy,
+    serviceId, serviceName, duration, details, availability, places, price, offeredBy,
   } = booking;
   const bookingHeight = calendarUtils.getBookingHeight(65, duration);
   const [showDetails, setShowDetails] = useState(false);
+
   return (
     <>
       <div
         className="calendar-bookings-item"
         aria-hidden="true"
+        draggable="true"
         style={{ height: bookingHeight }}
         onClick={() => setShowDetails(true)}
         onKeyDown={() => setShowDetails(true)}
+        onDragStart={(e) => e.dataTransfer.setData('serviceId', serviceId)}
       >
         <p>{serviceName}</p>
       </div>

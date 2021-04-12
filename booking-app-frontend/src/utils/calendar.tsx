@@ -21,7 +21,7 @@ export interface WeeklyCell {
 
 export const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-export const hours = Array.from(Array(12).keys()).map((hour) => {
+export const hours = Array.from(Array(13).keys()).map((hour) => {
   let mapped = `${hour + 7}:00`;
   if (hour < 3) {
     mapped = `0${mapped}`;
@@ -117,12 +117,42 @@ const findBooking = (
   return undefined;
 };
 
+const updateBookingsState = (
+  bookings: IBookingState[],
+  booking?: IBookingState,
+  day?: number,
+  hour?: number,
+): IBookingState[] => {
+  if (!booking || day === undefined || hour === undefined) {
+    return bookings;
+  }
+  const index = bookings.findIndex((b) => b.serviceId === booking?.serviceId);
+  if (index === -1) {
+    return bookings;
+  }
+  const newBooking: IBookingState = {
+    ...booking,
+    bookingMatrix: availabilityUtils.matrixSet(
+      availabilityUtils.matrixInit(),
+      true,
+      hour,
+      day - 1,
+    ),
+  };
+  return [
+    ...bookings.slice(0, index),
+    newBooking,
+    ...bookings.slice(index + 1, bookings.length),
+  ];
+};
+
 const calendarUtils = {
   mapTimeToPixels,
   isWorkInterval,
   getCalendarCells,
   getBookingHeight,
   findBooking,
+  updateBookingsState,
 };
 
 export default calendarUtils;

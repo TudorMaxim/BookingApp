@@ -33,6 +33,7 @@ const BookingForm: FunctionComponent<BookingFormProps> = ({ service, toggleModal
     places: service.places as number,
     offeredBy: service.offeredBy as string,
     bookingMatrix: availabilityUtils.matrixInit(),
+    availabilityMatrix: service.availabilityMatrix,
     phone: '',
   });
 

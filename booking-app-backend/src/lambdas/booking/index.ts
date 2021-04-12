@@ -16,7 +16,7 @@ const getBookings: APIGatewayProxyHandler = async event => {
         let bookings: Booking[] = [];
         const { userId, serviceId } = event.queryStringParameters;
         if (userId && serviceId) {
-            const booking = await Booking.find(serviceId, userId);
+            const booking = await Booking.find(userId, serviceId);
             if (booking) bookings = [booking];
         } else if (userId) {
             bookings = await bookingController.getForUser(userId);
